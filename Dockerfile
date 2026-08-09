@@ -19,7 +19,6 @@ COPY app ./app
 COPY alembic ./alembic
 COPY alembic.ini ./alembic.ini
 COPY content ./content
-COPY middle-math-70-exam.pdf middle-math-70-solutions.pdf ./
 COPY scripts ./scripts
 
 RUN chown -R appuser:appuser /app

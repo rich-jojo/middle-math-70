@@ -40,7 +40,6 @@ def client(sqlite_session: Session) -> Iterator[TestClient]:
         secret_key="test-secret-not-for-production",
         secure_cookies=False,
         trusted_proxy_cidrs="0.0.0.0/0,::/0",
-        auto_import_bundle="content/bundles/math70-v2.json",
     )
     app = create_app(settings)
 
@@ -71,12 +70,11 @@ def require_postgres_url() -> str:
 @pytest.fixture()
 def live_server_url(sqlite_session: Session) -> Iterator[str]:
     import_bundle_late = __import__("app.importer", fromlist=["import_bundle"]).import_bundle
-    import_bundle_late(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
+    import_bundle_late(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
     settings = Settings(
         database_url="sqlite+pysqlite:///:memory:",
         secret_key="live-test-secret",
         secure_cookies=False,
-        auto_import_bundle="",
     )
     app = create_app(settings)
 

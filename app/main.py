@@ -160,7 +160,10 @@ def canonical_json(value: Any) -> str:
 
 
 def iso(value: Any) -> str | None:
-    return value.isoformat() if value else None
+    if not value:
+        return None
+    normalized = value.replace(tzinfo=UTC) if value.tzinfo is None else value
+    return normalized.isoformat()
 
 
 def aware_utc(value: Any) -> Any:
@@ -276,23 +279,28 @@ def grade_attempt(
 
 LANDING_HTML = """<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>중등 수학 70 중앙 플랫폼</title><link rel="stylesheet" href="/static/app.css"></head>
-<body><main class="auth-page"><section class="hero"><p class="eyebrow">중앙 문제은행 · 계정 기반 CBT</p>
-<h1>중등 수학 70점 돌파</h1><p>문제 풀이 기록, 모의고사 저장, 첫 풀이 XP와 순위를 서버에 안전하게 저장합니다.</p>
-<p><a href="/middle-math-70-exam.pdf">문제지 PDF</a> · <a href="/middle-math-70-solutions.pdf">해설 PDF</a></p></section>
-<section class="auth-panel" aria-label="로그인과 가입"><h2>로그인 / 가입</h2>
-<form id="authForm"><label>사용자 이름<input name="username" autocomplete="username" required maxlength="64"></label>
-<label>비밀번호<input name="password" type="password" autocomplete="current-password" required maxlength="256"></label>
-<div class="actions"><button type="submit" data-login>로그인</button><button type="button" data-signup>가입하기</button></div>
-<p id="authStatus" role="status"></p></form></section></main><script src="/static/app.js"></script></body></html>"""
+<meta name="theme-color" content="#f3f6f2"><meta name="description" content="중1-2, 중2-1, 중2-2 수학 모의고사와 문제 풀이 기록을 한곳에서 관리합니다.">
+<title>수학 70 | 중등 수학 집중 훈련</title><link rel="stylesheet" href="/static/app.css"></head>
+<body class="auth-body"><a class="skip-link" href="#main">본문 바로가기</a>
+<main id="main" class="auth-page"><section class="hero" aria-labelledby="hero-title">
+<p class="subject-line">중등 수학 집중 훈련</p><h1 id="hero-title">시험장에서<br><span>70점</span>을 넘는 연습</h1>
+<p class="hero-copy">중1-2, 중2-1, 중2-2 범위를 실전 순서로 풀고 답안과 응시 기록은 바로 저장됩니다.</p>
+<div class="exam-brief" aria-label="시험 구성"><div><strong>25</strong><span>문항</span></div><div><strong>100</strong><span>점</span></div><div><strong>120</strong><span>분</span></div></div>
+</section><section class="auth-panel" aria-label="로그인과 가입"><div class="panel-heading"><p>학습 기록 시작</p><h2>계정으로 들어가기</h2></div>
+<form id="authForm"><label>사용자 이름<input name="username" autocomplete="username" required maxlength="64" placeholder="이름을 입력하세요"></label>
+<label>비밀번호<input name="password" type="password" autocomplete="current-password" required maxlength="256" placeholder="비밀번호를 입력하세요"></label>
+<div class="auth-actions"><button type="submit" data-login>로그인</button><button type="button" class="secondary" data-signup>새 계정 만들기</button></div>
+<p class="form-note">답안, 점수, 오답 기록을 서버에 보관합니다.</p><p id="authStatus" class="status" role="status" aria-live="polite"></p></form>
+</section></main><script src="/static/app.js"></script></body></html>"""
 
 
 APP_HTML = """<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>수학 70 워크스테이션</title><link rel="stylesheet" href="/static/app.css"></head>
-<body><div class="shell"><header class="topbar"><a class="brand" href="/app">수학 70</a>
-<nav><button data-view="dashboard">대시보드</button><button data-view="problems">문제</button><button data-view="exams">모의고사</button><button data-view="profile">프로필</button><button data-view="leaderboard">순위</button><button data-view="admin" data-admin-only hidden>관리</button></nav>
-<button id="logoutBtn">로그아웃</button></header><main id="appRoot" tabindex="-1"><p class="loading">불러오는 중</p></main></div>
+<meta name="theme-color" content="#f3f6f2"><title>수학 70 | 학습실</title><link rel="stylesheet" href="/static/app.css"></head>
+<body><a class="skip-link" href="#appRoot">본문 바로가기</a><div class="shell"><header class="topbar">
+<a class="brand" href="/app" aria-label="수학 70 홈"><span class="brand-mark">70</span><span>수학 훈련실</span></a>
+<nav aria-label="주요 메뉴"><button data-view="dashboard">홈</button><button data-view="problems">문제은행</button><button data-view="exams">모의고사</button><button data-view="profile">기록</button><button data-view="leaderboard">순위</button><button data-view="admin" data-admin-only hidden>관리</button></nav>
+<button id="logoutBtn" class="quiet">로그아웃</button></header><main id="appRoot" tabindex="-1"><div class="loading" role="status"><span></span><p>학습 기록을 불러오는 중</p></div></main></div>
 <script src="/static/app.js"></script></body></html>"""
 
 
@@ -909,67 +917,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def js() -> Response:
         return Response(APP_JS, media_type="application/javascript")
 
-    def pdf_response(path: str, include_body: bool = True) -> Response:
-        file_path = Path(path)
-        data = file_path.read_bytes() if include_body else b""
-        headers = {"content-length": str(file_path.stat().st_size)}
-        return Response(data, media_type="application/pdf", headers=headers)
-
-    @app.get("/middle-math-70-exam.pdf")
-    def exam_pdf() -> Response:
-        return pdf_response("middle-math-70-exam.pdf")
-
-    @app.head("/middle-math-70-exam.pdf")
-    def exam_pdf_head() -> Response:
-        return pdf_response("middle-math-70-exam.pdf", include_body=False)
-
-    @app.get("/middle-math-70-solutions.pdf")
-    def sol_pdf() -> Response:
-        return pdf_response("middle-math-70-solutions.pdf")
-
-    @app.head("/middle-math-70-solutions.pdf")
-    def sol_pdf_head() -> Response:
-        return pdf_response("middle-math-70-solutions.pdf", include_body=False)
-
     return app
 
 
-APP_CSS = """
-:root{--bg:#eef1ed;--panel:#fff;--ink:#17211f;--muted:#66716e;--line:#cbd2ce;--accent:#315e58;--accent2:#e2eeea;--danger:#963f37;--focus:#d58a36}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;max-width:100%;overflow-x:hidden;font-family:"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink);background:var(--bg);word-break:keep-all}button,input,select,textarea{font:inherit}button,a{touch-action:manipulation}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--focus);outline-offset:2px}.auth-page{min-height:100dvh;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:40px;align-items:center;max-width:1120px;margin:auto;padding:32px}.hero h1{font-size:clamp(40px,8vw,76px);line-height:1;letter-spacing:0;margin:0 0 18px}.eyebrow{font-size:12px;font-weight:900;color:var(--accent);letter-spacing:.12em}.auth-panel,.panel,.problem-card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:22px;box-shadow:0 16px 42px rgba(25,48,45,.08)}label{display:grid;gap:6px;margin:12px 0;color:var(--muted);font-size:14px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:7px;padding:12px;background:#fff;color:var(--ink)}textarea{min-height:140px;resize:vertical;line-height:1.5}button{border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--ink);font-weight:800;padding:10px 14px;cursor:pointer;min-width:0}button.primary,button[data-login],button[data-signup]{background:var(--accent);border-color:var(--accent);color:#fff}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.topbar{position:sticky;top:0;z-index:10;min-height:62px;background:#f8faf7;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 18px}.brand{font-size:18px;font-weight:900;color:var(--ink);text-decoration:none;white-space:nowrap}.topbar nav{display:flex;gap:4px;flex:1;min-width:0}.topbar nav button{padding:8px 10px;background:transparent;white-space:nowrap}.shell main{max-width:1180px;margin:auto;padding:22px 16px 80px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;align-items:end;margin-bottom:12px}.problem-card{text-align:left;display:grid;gap:8px}.badge{width:44px;height:44px}.muted{color:var(--muted)}.workstation{display:grid;grid-template-columns:260px minmax(0,1fr);gap:14px}.palette summary{display:none}.list{display:grid;gap:8px}.question{background:#fff;border:1px solid var(--line);padding:22px;border-radius:8px;min-height:320px;min-width:0}.question svg{max-width:100%;height:auto}.choices{display:grid;gap:8px}.choice{width:100%;text-align:left}.choice.selected,.flagged{background:var(--accent2);border-color:var(--accent)}.status{min-height:24px;color:var(--accent);font-weight:800}.error{color:var(--danger)}table{width:100%;border-collapse:collapse;background:#fff}td,th{border-bottom:1px solid var(--line);padding:10px;text-align:left}@media(max-width:720px){.auth-page{grid-template-columns:1fr;padding:18px}.topbar{height:auto;align-items:flex-start;flex-wrap:wrap;padding:10px}.topbar nav{order:3;flex-basis:100%;overflow-x:auto}.shell main{padding:14px 10px 60px}.workstation{grid-template-columns:1fr}.palette summary{display:block;margin:8px 0 12px;padding:12px;border:1px solid var(--line);border-radius:6px;background:#fff;font-weight:800;cursor:pointer}.hero h1{font-size:42px}}@media(max-width:390px){button{padding:9px 10px}.auth-panel,.panel,.problem-card,.question{padding:16px}.topbar{gap:6px}.topbar nav button{padding:8px}}
-"""
-
-
-APP_JS = """
-let csrfToken='', me=null, currentAttempt=null, currentSeq=1, pendingAnswers={}, pendingFlags={}, saveTimer=null, timerHandle=null;
-const $=s=>document.querySelector(s); const root=()=>$('#appRoot');
-const h=v=>String(v??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c]));
-const status=(m,bad=false)=>{const e=$('#authStatus')||$('#status'); if(e){e.textContent=m; e.className=bad?'error status':'status'}};
-async function api(path, opts={}){opts.headers={...(opts.headers||{}),'Content-Type':'application/json'}; if(csrfToken && !['GET','HEAD'].includes(opts.method||'GET')) opts.headers['X-CSRF-Token']=csrfToken; const r=await fetch(path,opts); if(r.status===401){location.href='/'; return null} if(!r.ok){let j; try{j=await r.json()}catch{j={detail:'요청 실패'}} throw new Error(j.detail||'요청 실패')} if(r.status===204)return {}; return r.json()}
-async function bootAuth(){const f=$('#authForm'); if(!f)return; f.addEventListener('submit',e=>{e.preventDefault(); submitAuth('/api/login')}); $('[data-signup]').addEventListener('click',()=>submitAuth('/api/signup'))}
-async function submitAuth(path){try{const f=$('#authForm'); const r=await api(path,{method:'POST',body:JSON.stringify({username:f.username.value,password:f.password.value})}); csrfToken=r.csrf_token; location.href='/app'}catch(e){status(e.message,true)}}
-async function bootApp(){if(!root())return; try{const r=await api('/api/me'); me=r; csrfToken=r.csrf_token; document.querySelectorAll('[data-admin-only]').forEach(x=>x.hidden=!me.is_admin); document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>render(b.dataset.view)); $('#logoutBtn').onclick=logout; const id=location.hash.startsWith('#attempt-')?location.hash.slice(9):''; if(id){await loadAttempt(id); return} await render('dashboard')}catch(e){root().innerHTML='<section class=\"panel\"><h1>로그인</h1><p>로그인이 필요합니다.</p><a href=\"/\">로그인 화면으로</a></section>'}}
-async function logout(){await api('/api/logout',{method:'POST'}); location.href='/'}
-async function render(view){clearInterval(timerHandle); if(view==='dashboard')return dashboard(); if(view==='problems')return problemList(); if(view==='exams')return examList(); if(view==='profile')return profileView(); if(view==='leaderboard')return leaderboard(); if(view==='admin')return adminView()}
-async function dashboard(){const p=await api('/api/profile'); root().innerHTML=`<h1>대시보드</h1><section class=\"grid\"><article class=\"panel\"><h2>${h(p.user.username)}</h2><p>${p.user.total_xp} XP · ${h(p.user.tier.label_ko)} · 풀이 ${p.solve_count}</p></article><article class=\"panel\"><h2>최근 응시</h2>${p.attempts.length?`<p>${h(p.attempts[0].title)} · ${p.attempts[0].score}점</p><button data-resume=\"${h(p.attempts[0].id)}\">이어보기</button>`:'<p>아직 기록 없음</p>'}</article></section><p id=\"status\" class=\"status\"></p>`; document.querySelectorAll('[data-resume]').forEach(b=>b.onclick=()=>loadAttempt(b.dataset.resume))}
-function problemQuery(){const p=new URLSearchParams(); ['grade','semester','unit','level','status'].forEach(k=>{const v=$('#f_'+k)?.value; if(v)p.set(k,v)}); return p.toString()?'/api/problems?'+p.toString():'/api/problems'}
-async function problemList(){const r=await api(problemQuery()); const probs=r.problems; const opts=(key)=>[...new Set(probs.map(p=>p[key]).filter(Boolean))].map(v=>`<option>${h(v)}</option>`).join(''); root().innerHTML=`<h1>문제</h1><section class=\"panel filters\"><label>학년<select id=\"f_grade\"><option value=\"\">전체</option>${opts('grade')}</select></label><label>학기<select id=\"f_semester\"><option value=\"\">전체</option>${opts('semester')}</select></label><label>단원<input id=\"f_unit\" placeholder=\"단원\"></label><label>레벨<input id=\"f_level\" type=\"number\" min=\"1\" max=\"30\"></label><label>상태<select id=\"f_status\"><option value=\"\">전체</option><option value=\"solved\">해결</option><option value=\"unsolved\">미해결</option></select></label><button id=\"applyFilters\">적용</button></section><div class=\"grid\">${probs.map(p=>`<button class=\"problem-card\" data-p=\"${h(p.id)}\"><span class=\"badge\">${p.tier_badge_svg}</span><strong>${h(p.title)}</strong><span class=\"muted\">${h(p.unit)} · ${h(p.tier.label_ko)} · ${p.base_xp} XP · ${p.solved?'해결':'미해결'}</span></button>`).join('')}</div><p id=\"status\" class=\"status\"></p>`; $('#applyFilters').onclick=problemList; document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>problemDetail(b.dataset.p))}
-async function problemDetail(id){const p=await api('/api/problems/'+id); root().innerHTML=`<button data-view=\"problems\">← 목록</button><article class=\"question\"><p class=\"muted\">${h(p.tier.label_ko)}</p><h1>${h(p.title)}</h1>${p.diagram_svg}<div>${p.body_html}</div><div class=\"choices\">${p.choices.map(c=>`<button class=\"choice\" data-choice=\"${c.index}\">${c.index+1}. ${h(c.text)}</button>`).join('')}</div><label>답 입력<input id=\"textAnswer\"></label><button class=\"primary\" id=\"submitPractice\">제출</button><div id=\"result\"></div></article>`; $('[data-view]').onclick=()=>problemList(); document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected')); b.classList.add('selected')}); $('#submitPractice').onclick=async()=>{const picked=$('.choice.selected'); const answer=p.answer_type==='choice'?{choice:Number(picked?.dataset.choice??-1)}:{text:$('#textAnswer').value}; const r=await api('/api/problems/'+id+'/submit',{method:'POST',body:JSON.stringify({answer,idempotency_key:crypto.randomUUID()})}); $('#result').innerHTML=`<h2>${r.correct?'정답':'오답'}</h2><p>${r.xp_awarded} XP</p>${r.explanation_html}`; me=await api('/api/me')}}
-async function examList(){const r=await api('/api/exams'); root().innerHTML=`<h1>모의고사</h1><div class=\"list\">${r.exams.map(e=>`<section class=\"panel\"><h2>${h(e.title)}</h2><p>${Math.round(e.time_limit_seconds/60)}분</p><button class=\"primary\" data-exam=\"${h(e.slug)}\">시작</button></section>`).join('')}</div>`; document.querySelectorAll('[data-exam]').forEach(b=>b.onclick=()=>startExam(b.dataset.exam))}
-async function startExam(slug){const r=await api('/api/exams/'+slug+'/attempts',{method:'POST',body:'{}'}); location.hash='attempt-'+r.attempt_id; await loadAttempt(r.attempt_id)}
-async function loadAttempt(id){currentAttempt=await api('/api/attempts/'+id); pendingAnswers={...(currentAttempt.answers||{})}; pendingFlags={...(currentAttempt.flags||{})}; currentSeq=Number(currentAttempt.items?.[0]?.sequence||1); renderAttempt()}
-function answerFor(item){return pendingAnswers[String(item.sequence)]||{}}
-function writeCurrent(item){const picked=$('.choice.selected'); if(item.answer_type==='choice'){if(picked)pendingAnswers[String(item.sequence)]={choice:Number(picked.dataset.choice)}}else{pendingAnswers[String(item.sequence)]={text:$('#examText')?.value||''}}}
-function renderAttempt(){clearInterval(timerHandle); const item=currentAttempt.items.find(x=>x.sequence===currentSeq); const ans=answerFor(item); root().innerHTML=`<h1>${h(currentAttempt.title)}</h1><div class=\"workstation\"><aside class=\"panel\"><p id=\"timer\" class=\"status\"></p><details class=\"palette\" ${window.matchMedia('(min-width:721px)').matches?'open':''}><summary>문항표 열기</summary><div class=\"grid\">${currentAttempt.items.map(i=>`<button data-jump=\"${i.sequence}\" class=\"${pendingFlags[String(i.sequence)]?'flagged':''}\">${i.sequence}${pendingAnswers[String(i.sequence)]?' ✓':''}</button>`).join('')}</div></details><button id=\"submitExam\" class=\"primary\">제출 검토</button></aside><article class=\"question\"><p>${currentSeq} / ${currentAttempt.items.length}</p><h2>${h(item.title)}</h2>${item.diagram_svg}<div>${item.body_html}</div><div class=\"choices\">${item.choices.map(c=>`<button class=\"choice ${ans.choice===c.index?'selected':''}\" data-choice=\"${c.index}\">${c.index+1}. ${h(c.text)}</button>`).join('')}</div>${item.answer_type==='process'?`<label>풀이 과정<textarea id=\"examText\" rows=\"7\">${h(ans.text||'')}</textarea></label>`:item.answer_type==='text'?`<label>답<input id=\"examText\" value=\"${h(ans.text||'')}\"></label>`:''}<label class=\"flag\"><input id=\"flagBox\" type=\"checkbox\" ${pendingFlags[String(item.sequence)]?'checked':''}> 검토 표시</label><div class=\"actions\"><button id=\"prev\">이전</button><button id=\"save\">저장</button><button id=\"next\">다음</button></div><p id=\"status\" class=\"status\"></p></article></div><section id=\"submitReview\" class=\"panel\" hidden></section>`; document.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{writeCurrent(item); currentSeq=Number(b.dataset.jump); renderAttempt()}); document.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); writeCurrent(item); debounceSave(item)}); const answerInput=$('#examText'); if(answerInput)answerInput.oninput=()=>{writeCurrent(item); debounceSave(item)}; $('#flagBox').onchange=()=>{pendingFlags[String(item.sequence)]=$('#flagBox').checked; debounceSave(item); renderAttempt()}; $('#prev').onclick=()=>{writeCurrent(item); currentSeq=Math.max(1,currentSeq-1); renderAttempt()}; $('#next').onclick=()=>{writeCurrent(item); currentSeq=Math.min(currentAttempt.items.length,currentSeq+1); renderAttempt()}; $('#save').onclick=()=>saveServer(item); $('#submitExam').onclick=()=>openSubmitReview(item); startTimer(); root().focus()}
-function debounceSave(item){status('저장 중...'); clearTimeout(saveTimer); saveTimer=setTimeout(()=>saveServer(item),350)}
-async function saveServer(item){try{writeCurrent(item); await api('/api/attempts/'+currentAttempt.id+'/answers',{method:'PATCH',body:JSON.stringify({answers:{[item.sequence]:pendingAnswers[String(item.sequence)]||{}},flags:{[item.sequence]:!!pendingFlags[String(item.sequence)]}})}); status('저장됨')}catch(e){status(e.message,true)}}
-function openSubmitReview(item){writeCurrent(item); const unanswered=currentAttempt.items.filter(i=>!pendingAnswers[String(i.sequence)]); const flagged=currentAttempt.items.filter(i=>pendingFlags[String(i.sequence)]); const box=$('#submitReview'); box.hidden=false; box.innerHTML=`<h2>제출 검토</h2><p>미응답 ${unanswered.length}개 · 검토 ${flagged.length}개</p><p class=\"muted\">미응답: ${h(unanswered.map(i=>i.sequence).join(', ')||'없음')}</p><p class=\"muted\">검토: ${h(flagged.map(i=>i.sequence).join(', ')||'없음')}</p><div class=\"actions\"><button data-return>돌아가기</button><button class=\"primary\" data-final-submit>최종 제출</button></div>`; $('[data-return]').onclick=()=>box.hidden=true; $('[data-final-submit]').onclick=submitExam}
-async function submitExam(){try{const r=await api('/api/attempts/'+currentAttempt.id+'/submit',{method:'POST',body:JSON.stringify({answers:pendingAnswers,idempotency_key:crypto.randomUUID()})}); clearInterval(timerHandle); location.hash=''; root().innerHTML=`<section class=\"panel\"><h1>결과</h1><p>${r.score}점 · ${r.xp_awarded} XP</p><div>${r.review.map(x=>`<details><summary>${x.sequence}번 ${x.points}점 ${x.correct?'정답':'오답'}</summary>${x.explanation_html}</details>`).join('')}</div></section>`}catch(e){status(e.message,true)}}
-function startTimer(){const tick=()=>{const e=$('#timer'); if(!e)return; const left=Math.max(0,Math.floor((new Date(currentAttempt.deadline_at)-new Date())/1000)); e.textContent=`남은 시간 ${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`; if(left<=0){status('응시 시간이 종료되었습니다.',true); clearInterval(timerHandle)}}; tick(); timerHandle=setInterval(tick,1000)}
-async function profileView(){const p=await api('/api/profile'); root().innerHTML=`<h1>프로필</h1><section class=\"grid\"><article class=\"panel\"><h2>${h(p.user.username)}</h2><p>${p.user.total_xp} XP · ${h(p.user.tier.label_ko)} · 풀이 ${p.solve_count}</p></article><article class=\"panel\"><h2>응시 기록</h2><div class=\"list\">${p.attempts.map(a=>`<button data-resume=\"${h(a.id)}\">${h(a.title)} · ${h(a.status)} · ${a.score}점</button>`).join('')||'<p>기록 없음</p>'}</div></article></section>`; document.querySelectorAll('[data-resume]').forEach(b=>b.onclick=()=>loadAttempt(b.dataset.resume))}
-async function leaderboard(){const r=await api('/api/leaderboard'); root().innerHTML=`<h1>순위</h1><table><thead><tr><th>순위</th><th>사용자</th><th>XP</th><th>티어</th></tr></thead><tbody>${r.users.map((u,i)=>`<tr><td>${i+1}</td><td>${h(u.username)}</td><td>${u.total_xp}</td><td>${h(u.tier.label_ko)}</td></tr>`).join('')}</tbody></table>`}
-async function adminView(){try{const [p,e]=await Promise.all([api('/api/admin/problems'),api('/api/admin/exams')]); root().innerHTML=`<h1>관리</h1><section class=\"panel\"><h2>문제 관리</h2><p>${p.problems.length}개 문제 · 초안 포함</p><div class=\"list\">${p.problems.slice(0,20).map(x=>`<span>${h(x.external_key)} · ${h(x.title)} · ${h(x.state)}</span>`).join('')}</div></section><section class=\"panel\"><h2>시험 관리</h2><p>${e.exams.length}개 시험</p></section><section class=\"panel\"><h2>번들 가져오기</h2><label>경로<input id=\"bundlePath\" value=\"content/bundles/math70-v2.json\"></label><div class=\"actions\"><button id=\"dry\">검증</button><button id=\"import\" class=\"primary\">가져오기</button></div><pre id=\"adminOut\"></pre></section>`; $('#dry').onclick=()=>runImport(true); $('#import').onclick=()=>runImport(false)}catch(err){root().innerHTML=`<section class=\"panel\"><h1>관리</h1><p class=\"error\">${h(err.message)}</p></section>`}}
-async function runImport(dry_run){const r=await api('/api/admin/import',{method:'POST',body:JSON.stringify({path:$('#bundlePath').value,dry_run})}); $('#adminOut').textContent=JSON.stringify(r,null,2)}
-document.addEventListener('keydown',e=>{if(!currentAttempt||!currentAttempt.items)return; const item=currentAttempt.items.find(x=>x.sequence===currentSeq); if(e.key==='ArrowRight'){$('#next')?.click()} if(e.key==='ArrowLeft'){$('#prev')?.click()} if(e.key.toLowerCase()==='f'){const f=$('#flagBox'); if(f){f.checked=!f.checked; f.dispatchEvent(new Event('change'))}}});
-bootAuth(); bootApp();
-"""
+STATIC_DIR = Path(__file__).parent / "static"
+APP_CSS = (STATIC_DIR / "app.css").read_text(encoding="utf-8")
+APP_JS = (STATIC_DIR / "app.js").read_text(encoding="utf-8")

@@ -401,8 +401,8 @@ answer_key, solution, points, asset files + SHA-256
 
 - 정적 사이트는 콘텐츠를 DB에서 직접 읽지 않고 API를 호출한다.
 - 프런트에는 DB credential이 없다.
-- 구버전 정적 CBT는 짧은 기간 read-only fallback으로 남긴다.
-- 기존 `localStorage` 답안은 중앙 사용자와 신뢰성 있게 매칭할 수 없으므로 자동 점수 이관하지 않는다. 로그인 후 사용자가 명시적으로 import할 수 있는 경우에만 `legacy_import` 출처로 보존한다.
+- 정적 구버전 fallback 없이 중앙 서비스 한 경로만 운영한다.
+- `localStorage`는 네트워크 장애 중 답안 복구 캐시로만 사용하며 PostgreSQL 응시 기록을 권위 있는 원본으로 유지한다.
 - 문제 추가 agent는 raw production SQL 대신 검증 가능한 manifest → dry-run → admin preview → publish API를 사용한다.
 
 ## 9. 지금 규모와 3년 후 판단

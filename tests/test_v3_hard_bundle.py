@@ -13,7 +13,7 @@ V3_PATH = "content/bundles/math70-v3-hard.json"
 
 
 def test_process_answer_ui_uses_multiline_textarea() -> None:
-    assert "item.answer_type==='process'" in APP_JS
+    assert "item.answer_type === 'process'" in APP_JS
     assert '<textarea id="examText"' in APP_JS
 
 

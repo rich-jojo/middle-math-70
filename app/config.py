@@ -13,7 +13,6 @@ class Settings(BaseSettings):
     session_cookie: str = "mm70_session"
     session_days: int = 14
     trusted_proxy_cidrs: str = ""
-    auto_import_bundle: str = ""
     public_base_url: str = "http://127.0.0.1:8000"
 
     model_config = SettingsConfigDict(env_file=".env", env_prefix="MM70_", extra="ignore")

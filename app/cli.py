@@ -16,7 +16,7 @@ app = typer.Typer(no_args_is_help=True)
 
 
 def auto_import_bundle_paths() -> list[str]:
-    configured = os.getenv("MM70_AUTO_IMPORT_BUNDLES") or os.getenv("MM70_AUTO_IMPORT_BUNDLE", "")
+    configured = os.getenv("MM70_AUTO_IMPORT_BUNDLES", "")
     return [path.strip() for path in configured.split(",") if path.strip()]
 
 

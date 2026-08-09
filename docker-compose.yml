@@ -27,7 +27,7 @@ services:
       MM70_SECRET_KEY: ${MM70_SECRET_KEY}
       MM70_SECURE_COOKIES: ${MM70_SECURE_COOKIES:-true}
       MM70_TRUSTED_PROXY_CIDRS: ${MM70_TRUSTED_PROXY_CIDRS:-}
-      MM70_AUTO_IMPORT_BUNDLES: content/bundles/math70-v2.json,content/bundles/math70-v3-hard.json
+      MM70_AUTO_IMPORT_BUNDLES: content/bundles/math70-v3-hard.json
     ports:
       - "${MM70_HOST_BIND:-127.0.0.1}:${MM70_PORT:-8000}:8000"
     healthcheck:

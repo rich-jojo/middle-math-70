@@ -16,7 +16,7 @@ from app.config import Settings
 from app.db import Base, get_db
 from app.importer import import_bundle
 from app.main import create_app
-from app.models import ProblemVersion, User
+from app.models import Problem, ProblemVersion, User
 from tests.conftest import require_postgres_url, signup_and_login
 
 
@@ -25,7 +25,7 @@ def test_admin_rbac_and_bootstrap_cli(client, sqlite_session):
     denied = client.post(
         "/api/admin/import",
         headers={"X-CSRF-Token": auth["csrf"]},
-        json={"path": "content/bundles/math70-v2.json", "dry_run": True},
+        json={"path": "content/bundles/math70-v3-hard.json", "dry_run": True},
     )
     assert denied.status_code == 403
 
@@ -39,7 +39,7 @@ def test_admin_rbac_and_bootstrap_cli(client, sqlite_session):
     ok = client.post(
         "/api/admin/import",
         headers={"X-CSRF-Token": login.json()["csrf_token"]},
-        json={"path": "content/bundles/math70-v2.json", "dry_run": True},
+        json={"path": "content/bundles/math70-v3-hard.json", "dry_run": True},
     )
     assert ok.status_code == 200
     assert ok.json()["valid"] is True
@@ -168,7 +168,7 @@ def test_admin_problem_exam_versioning_validation_and_attempt_snapshots(client, 
         f"/api/admin/problems/{problem['id']}/versions",
         headers={"X-CSRF-Token": csrf},
         json={
-            "title": "관리 문제 v2",
+            "title": "관리 문제 개정판",
             "body_html": "<p>2+2?</p>",
             "answer_type": "choice",
             "choices": ["3", "4"],
@@ -206,7 +206,7 @@ def test_real_postgresql_import_and_auth_boundaries():
     settings = Settings(database_url=database_url, secret_key="pg-test-secret", secure_cookies=False)
     app = create_app(settings)
     with maker() as session:
-        import_bundle(session, "content/bundles/math70-v2.json", dry_run=False)
+        import_bundle(session, "content/bundles/math70-v3-hard.json", dry_run=False)
 
     def override_db():
         with maker() as session:
@@ -218,7 +218,7 @@ def test_real_postgresql_import_and_auth_boundaries():
         signup = client.post("/api/signup", json={"username": "pg-user", "password": "pw"})
         assert signup.status_code == 201
         assert client.get("/api/problems").status_code == 200
-        assert client.get("/api/exams").json()["exams"][0]["slug"] == "math70-v2"
+        assert client.get("/api/exams").json()["exams"][0]["slug"] == "math70-v3-hard"
 
     with engine.connect() as conn:
         assert conn.execute(text("select count(*) from problems")).scalar_one() == 25
@@ -235,7 +235,7 @@ def test_real_postgresql_concurrent_first_solve_is_exactly_once():
     app = create_app(settings)
 
     with maker() as session:
-        import_bundle(session, "content/bundles/math70-v2.json", dry_run=False)
+        import_bundle(session, "content/bundles/math70-v3-hard.json", dry_run=False)
 
     def override_db():
         with maker() as session:
@@ -275,13 +275,22 @@ def test_real_postgresql_concurrent_first_solve_is_exactly_once():
 
 
 @pytest.mark.e2e
-def test_browser_signup_gate_core_flows_admin_rbac_and_mobile_overflow(live_server_url, sqlite_session):
+@pytest.mark.parametrize(("width", "height"), [(390, 844), (1440, 1000)])
+def test_browser_signup_gate_core_flows_admin_rbac_and_responsive_overflow(
+    live_server_url, sqlite_session, width, height
+):
     bootstrap_admin(sqlite_session, username="browser admin", password="pw")
+    first_problem = sqlite_session.scalar(
+        select(Problem).where(Problem.state == "published").order_by(Problem.level, Problem.external_key)
+    )
+    correct_choice = sqlite_session.get(ProblemVersion, first_problem.current_version_id).answer_spec[
+        "correct_index"
+    ]
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--window-size=390,844")
+    options.add_argument(f"--window-size={width},{height}")
     driver = webdriver.Chrome(options=options)
     wait = WebDriverWait(driver, 8)
 
@@ -291,7 +300,16 @@ def test_browser_signup_gate_core_flows_admin_rbac_and_mobile_overflow(live_serv
         return item
 
     def has_text(text: str):
-        return wait.until(lambda d: text in d.page_source)
+        return wait.until(lambda d: text in d.find_element(By.TAG_NAME, "body").text)
+
+    def autosave_complete():
+        def state_or_error(driver):
+            status = driver.find_element(By.ID, "saveStatus")
+            if "저장 실패" in status.text:
+                raise AssertionError(f"autosave failed: {status.text!r}")
+            return status.text == "자동 저장 완료"
+
+        return wait.until(state_or_error)
 
     try:
         driver.get(live_server_url + "/app")
@@ -300,16 +318,16 @@ def test_browser_signup_gate_core_flows_admin_rbac_and_mobile_overflow(live_serv
         driver.find_element("name", "username").send_keys("브라우저 학생")
         driver.find_element("name", "password").send_keys("pw")
         click("button[data-signup]")
-        has_text("대시보드")
+        has_text("오늘의 학습실")
         assert not driver.find_elements(By.CSS_SELECTOR, "button[data-view='admin']:not([hidden])")
 
         click("button[data-view='problems']")
         has_text("미해결")
         click(".problem-card")
-        has_text("제출")
-        click("[data-choice='1']")
+        has_text("채점하기")
+        click(f"[data-choice='{correct_choice}']")
         click("#submitPractice")
-        has_text("정답")
+        has_text("정답입니다")
 
         click("button[data-view='problems']")
         has_text("해결")
@@ -320,12 +338,16 @@ def test_browser_signup_gate_core_flows_admin_rbac_and_mobile_overflow(live_serv
 
         click("button[data-view='exams']")
         has_text("모의고사")
-        click("[data-exam='math70-v2']")
+        click("[data-exam='math70-v3-hard']")
         has_text("제출 검토")
+        timer = wait.until(lambda d: d.find_element(By.ID, "timer"))
+        assert "응시 시간이 종료되었습니다." not in driver.find_element(By.TAG_NAME, "body").text
+        assert timer.text != "0:00"
+        assert not driver.find_elements(By.ID, "save")
         click("[data-choice='1']")
-        has_text("저장됨")
+        autosave_complete()
         click("#flagBox")
-        has_text("저장됨")
+        autosave_complete()
         driver.refresh()
         has_text("제출 검토")
         assert (
@@ -335,15 +357,15 @@ def test_browser_signup_gate_core_flows_admin_rbac_and_mobile_overflow(live_serv
         assert driver.find_element(By.ID, "flagBox").is_selected()
         click("#submitExam")
         has_text("미응답")
-        has_text("검토")
+        has_text("다시 볼 문제")
         click("[data-final-submit]")
-        has_text("결과")
+        has_text("채점이 끝났습니다")
 
         click("button[data-view='profile']")
-        has_text("프로필")
+        has_text("학습 기록")
         has_text("응시 기록")
         click("button[data-view='leaderboard']")
-        has_text("순위")
+        has_text("학습 순위")
         has_text("브라우저 학생")
 
         click("#logoutBtn")
@@ -351,11 +373,11 @@ def test_browser_signup_gate_core_flows_admin_rbac_and_mobile_overflow(live_serv
         driver.find_element("name", "username").send_keys("browser admin")
         driver.find_element("name", "password").send_keys("pw")
         click("button[data-login]")
-        has_text("대시보드")
+        has_text("오늘의 학습실")
         assert driver.find_elements(By.CSS_SELECTOR, "button[data-view='admin']:not([hidden])")
         click("button[data-view='admin']")
-        has_text("문제 관리")
-        has_text("시험 관리")
+        has_text("콘텐츠 관리")
+        has_text("번들 가져오기")
 
         assert driver.execute_script(
             "return document.documentElement.scrollWidth <= document.documentElement.clientWidth"

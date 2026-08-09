@@ -9,8 +9,8 @@ import pytest
 from app.importer import clean_html, load_bundle
 
 
-def _legacy_bundle() -> dict:
-    return json.loads(Path("content/bundles/math70-v2.json").read_text(encoding="utf-8"))
+def _v3_bundle() -> dict:
+    return json.loads(Path("content/bundles/math70-v3-hard.json").read_text(encoding="utf-8"))
 
 
 def _write(tmp_path: Path, bundle: dict) -> Path:
@@ -20,7 +20,7 @@ def _write(tmp_path: Path, bundle: dict) -> Path:
 
 
 def test_load_bundle_rejects_noncontiguous_exam_sequences(tmp_path: Path) -> None:
-    bundle = _legacy_bundle()
+    bundle = _v3_bundle()
     bundle["exams"][0]["items"][-1]["sequence"] = 26
 
     with pytest.raises(ValueError, match="contiguous"):
@@ -28,7 +28,7 @@ def test_load_bundle_rejects_noncontiguous_exam_sequences(tmp_path: Path) -> Non
 
 
 def test_load_bundle_rejects_duplicate_choice_options(tmp_path: Path) -> None:
-    bundle = _legacy_bundle()
+    bundle = _v3_bundle()
     problem = next(item for item in bundle["problems"] if item["answer_type"] == "choice")
     problem["choices"][1] = problem["choices"][0]
 
@@ -37,7 +37,7 @@ def test_load_bundle_rejects_duplicate_choice_options(tmp_path: Path) -> None:
 
 
 def test_load_bundle_rejects_duplicate_process_rubric_tokens(tmp_path: Path) -> None:
-    bundle = deepcopy(_legacy_bundle())
+    bundle = deepcopy(_v3_bundle())
     problem = next(item for item in bundle["problems"] if item["answer_type"] == "process")
     problem["answer_spec"]["partial"] = [
         {"points": 1, "tokens": ["x=1"]},

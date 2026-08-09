@@ -10,40 +10,38 @@ from app.models import Attempt, AttemptAnswer, Problem, ProblemVersion, User, Xp
 from tests.conftest import signup_and_login
 
 
-def test_exact_legacy_bundle_count_content_and_pdf_routes_remain_unchanged(client):
-    bundle = load_bundle("content/bundles/math70-v2.json")
+def test_v3_bundle_is_the_only_published_content_contract(client):
+    bundle = load_bundle("content/bundles/math70-v3-hard.json")
     assert len(bundle["problems"]) == 25
     assert [p["external_key"] for p in bundle["problems"][:3]] == [
-        "math70-v2-001",
-        "math70-v2-002",
-        "math70-v2-003",
+        "math70-v3-hard-001",
+        "math70-v3-hard-002",
+        "math70-v3-hard-003",
     ]
-    assert bundle["problems"][0]["title"] == "1. 중1-2 기본도형"
-    assert bundle["problems"][-1]["external_key"] == "math70-v2-025"
-    assert bundle["exams"][0]["slug"] == "math70-v2"
+    assert bundle["problems"][0]["title"] == "1. 중2-2 마름모와 피타고라스 정리"
+    assert bundle["problems"][-1]["external_key"] == "math70-v3-hard-025"
+    assert bundle["exams"][0]["slug"] == "math70-v3-hard"
     assert len(bundle["exams"][0]["items"]) == 25
 
-    exam_pdf = client.head("/middle-math-70-exam.pdf")
-    sol_pdf = client.head("/middle-math-70-solutions.pdf")
-    assert exam_pdf.status_code == 200
-    assert sol_pdf.status_code == 200
-    assert int(exam_pdf.headers["content-length"]) > 100_000
-    assert int(sol_pdf.headers["content-length"]) > 100_000
+    assert client.head("/middle-math-70-exam.pdf").status_code == 404
+    assert client.head("/middle-math-70-solutions.pdf").status_code == 404
 
 
 def test_bundle_import_is_idempotent_and_creates_immutable_exam_versions(client, sqlite_session):
-    first = import_bundle(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
-    second = import_bundle(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
+    first = import_bundle(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
+    second = import_bundle(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
     signup_and_login(client, "bundle-reader", "pw")
 
     assert first["created_problems"] == 25
     assert second["created_problems"] == 0
-    assert sqlite_session.scalar(select(Problem).where(Problem.external_key == "math70-v2-001")) is not None
+    assert (
+        sqlite_session.scalar(select(Problem).where(Problem.external_key == "math70-v3-hard-001")) is not None
+    )
     assert len(client.get("/api/exams").json()["exams"]) == 1
 
 
 def test_problem_detail_hides_answer_until_submit_and_practice_awards_xp_once(client, sqlite_session):
-    import_bundle(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
+    import_bundle(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
     auth = signup_and_login(client, "solver", "pw")
 
     problems = client.get("/api/problems").json()["problems"]
@@ -85,7 +83,7 @@ def test_problem_detail_hides_answer_until_submit_and_practice_awards_xp_once(cl
 
 
 def test_problem_list_returns_solved_state_and_filters_for_current_user(client, sqlite_session):
-    import_bundle(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
+    import_bundle(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
     auth = signup_and_login(client, "filter-user", "pw")
 
     initial = client.get("/api/problems").json()["problems"]
@@ -110,7 +108,7 @@ def test_problem_list_returns_solved_state_and_filters_for_current_user(client, 
 
 
 def test_profile_endpoint_reports_xp_solve_count_and_attempt_history(client, sqlite_session):
-    import_bundle(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
+    import_bundle(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
     auth = signup_and_login(client, "profile-user", "pw")
     problem = client.get("/api/problems").json()["problems"][0]
     version = sqlite_session.get(ProblemVersion, problem["problem_version_id"])
@@ -119,7 +117,7 @@ def test_profile_endpoint_reports_xp_solve_count_and_attempt_history(client, sql
         headers={"X-CSRF-Token": auth["csrf"]},
         json={"answer": {"choice": version.answer_spec["correct_index"]}, "idempotency_key": "profile-solve"},
     )
-    start = client.post("/api/exams/math70-v2/attempts", headers={"X-CSRF-Token": auth["csrf"]})
+    start = client.post("/api/exams/math70-v3-hard/attempts", headers={"X-CSRF-Token": auth["csrf"]})
     assert start.status_code == 201
 
     profile = client.get("/api/profile").json()
@@ -130,10 +128,10 @@ def test_profile_endpoint_reports_xp_solve_count_and_attempt_history(client, sql
 
 
 def test_exam_attempt_freezes_snapshot_autosaves_grades_and_does_not_double_award_xp(client, sqlite_session):
-    import_bundle(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
+    import_bundle(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
     auth = signup_and_login(client, "exam-user", "pw")
 
-    start = client.post("/api/exams/math70-v2/attempts", headers={"X-CSRF-Token": auth["csrf"]})
+    start = client.post("/api/exams/math70-v3-hard/attempts", headers={"X-CSRF-Token": auth["csrf"]})
     assert start.status_code == 201
     attempt_id = start.json()["attempt_id"]
     attempt = client.get(f"/api/attempts/{attempt_id}").json()
@@ -206,9 +204,9 @@ def test_exam_attempt_freezes_snapshot_autosaves_grades_and_does_not_double_awar
 
 
 def test_attempt_save_and_submit_validate_sequences_and_deadline(client, sqlite_session):
-    import_bundle(sqlite_session, "content/bundles/math70-v2.json", dry_run=False)
+    import_bundle(sqlite_session, "content/bundles/math70-v3-hard.json", dry_run=False)
     auth = signup_and_login(client, "deadline-user", "pw")
-    start = client.post("/api/exams/math70-v2/attempts", headers={"X-CSRF-Token": auth["csrf"]})
+    start = client.post("/api/exams/math70-v3-hard/attempts", headers={"X-CSRF-Token": auth["csrf"]})
     attempt_id = start.json()["attempt_id"]
     attempt_payload = client.get(f"/api/attempts/{attempt_id}").json()
     assert attempt_payload["started_at"]
