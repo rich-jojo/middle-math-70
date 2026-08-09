@@ -1,0 +1,911 @@
+{
+  "schema_version": 1,
+  "source": "legacy index.html CBT v2",
+  "notes": "solved.ac mechanics were inspiration only. This bundle uses original content, original tier badge geometry, and does not copy solved.ac image files, logo, CSS, or branding.",
+  "problems": [
+    {
+      "external_key": "math70-v2-001",
+      "title": "1. 중1-2 기본도형",
+      "body_html": "<p>l ∥ m이다. 그림에서 둔각 128°와 위치가 다른 예각 x의 크기는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"평행한 두 직선과 횡단선에서 128도와 x의 위치를 나타낸 그림\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M30 70H390M30 185H390\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M105 225L290 25\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M250 70h22m-11-11v22M144 185h22m-11-11v22\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><text x=\"250\" y=\"54\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">128°</text><text x=\"128\" y=\"176\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">x</text><text x=\"360\" y=\"62\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">l</text><text x=\"360\" y=\"177\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">m</text><text x=\"320\" y=\"25\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">l ∥ m</text></svg>",
+      "grade": "중1",
+      "semester": "1-2",
+      "unit": "기본도형",
+      "tags": [
+        "중1-2",
+        "기본도형",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "48°",
+        "52°",
+        "128°",
+        "62°",
+        "132°"
+      ],
+      "answer_spec": {
+        "correct_index": 1
+      },
+      "explanation_html": "<ol><li>128°와 x는 같은 크기의 각이 아니라 서로 보각인 위치이다.</li><li>x=180°−128°=52°이다.</li></ol><p><strong>정답</strong>: ② 52°</p><p><strong>오답 기준</strong>: 128°를 그대로 옮기면 각의 위치를 확인하지 않은 것이다.</p><p><strong>재시험</strong>: 128°를 134°로 바꾸면 예각은 몇 도인가?</p>",
+      "level": 3,
+      "base_xp": 32,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-002",
+      "title": "2. 중2-1 유리수와 순환소수",
+      "body_html": "<p>순환소수 0.1666…(소수점 아래 둘째 자리의 6부터 반복)을 기약분수로 나타낸 것은?</p>",
+      "diagram_svg": "",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "유리수와",
+      "tags": [
+        "중2-1",
+        "유리수와",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "4/25",
+        "16/99",
+        "1/5",
+        "1/6",
+        "1/60"
+      ],
+      "answer_spec": {
+        "correct_index": 3
+      },
+      "explanation_html": "<ol><li>x=0.1666…이라 두면 10x=1.666…이다.</li><li>10x−x=1.5이므로 9x=1.5, x=1/6이다.</li></ol><p><strong>정답</strong>: ④ 1/6</p><p><strong>오답 기준</strong>: 0.16은 유한소수이고 0.1666…과 다르다.</p><p><strong>재시험</strong>: 0.2333…에서 3만 반복될 때 분수로 나타내 보자.</p>",
+      "level": 7,
+      "base_xp": 48,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-003",
+      "title": "3. 중2-2 이등변삼각형",
+      "body_html": "<p>꼭지각이 40°인 이등변삼각형에서 한 밑각의 외각 x는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"꼭지각 40도인 이등변삼각형과 밑각의 외각 x를 나타낸 그림\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M210 28L75 192H365Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M365 192H410\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M137 105l13 10M270 115l13-10\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><path d=\"M191 53A30 30 0 0 1 230 53\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"197\" y=\"83\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">40°</text><text x=\"362\" y=\"176\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">x</text></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "이등변삼각형",
+      "tags": [
+        "중2-2",
+        "이등변삼각형",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "110°",
+        "70°",
+        "40°",
+        "140°",
+        "150°"
+      ],
+      "answer_spec": {
+        "correct_index": 0
+      },
+      "explanation_html": "<ol><li>한 밑각은 (180°−40°)÷2=70°이다.</li><li>외각 x=180°−70°=110°이다.</li></ol><p><strong>정답</strong>: ① 110°</p><p><strong>오답 기준</strong>: 70°는 밑각이고 문제는 그 외각을 묻는다.</p><p><strong>재시험</strong>: 꼭지각을 36°로 바꾸면 밑각의 외각은?</p>",
+      "level": 12,
+      "base_xp": 68,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-004",
+      "title": "4. 중1-2 원과 부채꼴",
+      "body_html": "<p>반지름 6 cm, 중심각 120°인 부채꼴의 호의 길이는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"반지름 6센티미터 중심각 120도인 부채꼴\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M210 200L80 125A150 150 0 0 1 340 125Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"210\" cy=\"200\" r=\"4\" fill=\"#17211f\"/><path d=\"M190 188A25 25 0 0 1 230 188\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><text x=\"194\" y=\"165\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">120°</text><text x=\"117\" y=\"168\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">6 cm</text></svg>",
+      "grade": "중1",
+      "semester": "1-2",
+      "unit": "원과",
+      "tags": [
+        "중1-2",
+        "원과",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "2π cm",
+        "3π cm",
+        "6π cm",
+        "12π cm",
+        "4π cm"
+      ],
+      "answer_spec": {
+        "correct_index": 4
+      },
+      "explanation_html": "<ol><li>원 전체 둘레는 2π×6=12π cm이다.</li><li>12π×120/360=4π cm이다.</li></ol><p><strong>정답</strong>: ⑤ 4π cm</p><p><strong>오답 기준</strong>: 12π는 원 전체 둘레이며, 부채꼴 넓이와도 구분해야 한다.</p><p><strong>재시험</strong>: 반지름 9 cm, 중심각 80°인 호의 길이를 구해 보자.</p>",
+      "level": 4,
+      "base_xp": 36,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-005",
+      "title": "5. 중2-1 식의 계산",
+      "body_html": "<p>(2a²b)² ÷ (4ab)를 간단히 한 것은? (a≠0, b≠0)</p>",
+      "diagram_svg": "",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "식의",
+      "tags": [
+        "중2-1",
+        "식의",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "a²b",
+        "a³",
+        "a³b",
+        "2a³b",
+        "4a³b²"
+      ],
+      "answer_spec": {
+        "correct_index": 2
+      },
+      "explanation_html": "<ol><li>(2a²b)²=4a⁴b²이다.</li><li>4a⁴b²÷4ab=a³b이다.</li></ol><p><strong>정답</strong>: ③ a³b</p><p><strong>오답 기준</strong>: 괄호의 제곱은 계수 2와 문자 b에도 모두 적용한다.</p><p><strong>재시험</strong>: (3x²y)²÷(9xy)를 간단히 해 보자.</p>",
+      "level": 8,
+      "base_xp": 52,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-006",
+      "title": "6. 중1-2 도수분포와 상대도수",
+      "body_html": "<p>전체 20명 중 5점 이상 10점 미만 계급의 도수가 6명이다. 이 계급의 상대도수는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"네 계급 도수분포표에서 전체 20명과 해당 계급 도수 6명을 나타낸 표\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><rect x=\"45\" y=\"30\" width=\"330\" height=\"180\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M45 75H375M45 120H375M45 165H375M230 30V210\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"95\" y=\"59\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">점수 구간</text><text x=\"282\" y=\"59\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">도수(명)</text><text x=\"80\" y=\"104\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">0 이상 5 미만</text><text x=\"300\" y=\"104\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">4</text><text x=\"80\" y=\"149\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">5 이상 10 미만</text><text x=\"300\" y=\"149\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">6</text><text x=\"80\" y=\"194\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">합계</text><text x=\"294\" y=\"194\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">20</text></svg>",
+      "grade": "중1",
+      "semester": "1-2",
+      "unit": "도수분포와",
+      "tags": [
+        "중1-2",
+        "도수분포와",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "0.20",
+        "0.25",
+        "0.30",
+        "0.40",
+        "0.60"
+      ],
+      "answer_spec": {
+        "correct_index": 2
+      },
+      "explanation_html": "<ol><li>상대도수=그 계급의 도수÷전체 도수이다.</li><li>6÷20=0.30이다.</li></ol><p><strong>정답</strong>: ③ 0.30</p><p><strong>오답 기준</strong>: 6을 10이나 계급 수로 나누지 말고 전체 20으로 나눈다.</p><p><strong>재시험</strong>: 전체 25명 중 도수 8명의 상대도수를 구해 보자.</p>",
+      "level": 5,
+      "base_xp": 40,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-007",
+      "title": "7. 중2-1 일차부등식",
+      "body_html": "<p>−3(x−2)>9의 해는?</p>",
+      "diagram_svg": "",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "일차부등식",
+      "tags": [
+        "중2-1",
+        "일차부등식",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "x<−1",
+        "x>−1",
+        "x<1",
+        "x>1",
+        "x<−5"
+      ],
+      "answer_spec": {
+        "correct_index": 0
+      },
+      "explanation_html": "<ol><li>−3x+6>9에서 −3x>3이다.</li><li>음수 −3으로 나누며 방향을 바꾸어 x<−1이다.</li></ol><p><strong>정답</strong>: ① x<−1</p><p><strong>오답 기준</strong>: 음수로 나눌 때 부등호 방향을 반드시 바꾼다.</p><p><strong>재시험</strong>: −4(x+1)≥8의 해를 구해 보자.</p>",
+      "level": 9,
+      "base_xp": 56,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-008",
+      "title": "8. 중2-2 평행사변형",
+      "body_html": "<p>평행사변형 ABCD의 대각선 교점 O에서 AO=2x+3, OC=4x−7일 때 x는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"평행사변형 ABCD의 대각선 교점 O와 AO 및 OC 길이식\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M105 35H350L305 205H60Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M105 35L305 205M350 35L60 205\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"205\" cy=\"120\" r=\"4\" fill=\"#17211f\"/><text x=\"90\" y=\"27\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">A</text><text x=\"355\" y=\"30\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">B</text><text x=\"310\" y=\"225\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">C</text><text x=\"42\" y=\"225\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">D</text><text x=\"211\" y=\"116\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">O</text><text x=\"122\" y=\"93\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">2x+3</text><text x=\"236\" y=\"160\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">4x−7</text></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "평행사변형",
+      "tags": [
+        "중2-2",
+        "평행사변형",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer_spec": {
+        "correct_index": 4
+      },
+      "explanation_html": "<ol><li>평행사변형의 대각선은 서로를 이등분하므로 AO=OC이다.</li><li>2x+3=4x−7에서 2x=10, x=5이다.</li></ol><p><strong>정답</strong>: ⑤ 5</p><p><strong>오답 기준</strong>: 두 대각선 전체가 같은 것이 아니라 각각이 교점에서 반으로 나뉜다.</p><p><strong>재시험</strong>: AO=3x−2, OC=x+8일 때 x를 구해 보자.</p>",
+      "level": 13,
+      "base_xp": 72,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-009",
+      "title": "9. 중1-2 다각형",
+      "body_html": "<p>정십오각형의 한 외각의 크기는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"정십오각형의 꼭짓점에서 한 외각을 표시한 그림\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M70 165L120 75L210 35L305 65L365 145L330 205H95Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M365 145L410 113\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M365 145A42 42 0 0 1 390 127\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><text x=\"385\" y=\"165\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">외각</text><text x=\"145\" y=\"125\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">정십오각형</text><text x=\"125\" y=\"225\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">※ 일부 꼭짓점만 확대</text></svg>",
+      "grade": "중1",
+      "semester": "1-2",
+      "unit": "다각형",
+      "tags": [
+        "중1-2",
+        "다각형",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "12°",
+        "24°",
+        "30°",
+        "156°",
+        "168°"
+      ],
+      "answer_spec": {
+        "correct_index": 1
+      },
+      "explanation_html": "<ol><li>정다각형의 외각의 합은 360°이다.</li><li>한 외각은 360°÷15=24°이다.</li></ol><p><strong>정답</strong>: ② 24°</p><p><strong>오답 기준</strong>: 156°는 180°−24°인 내각이다.</p><p><strong>재시험</strong>: 정십이각형의 한 외각을 구해 보자.</p>",
+      "level": 6,
+      "base_xp": 44,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-010",
+      "title": "10. 중2-1 연립방정식",
+      "body_html": "<p>x+y=8, 2x−y=7일 때 x−y의 값은?</p>",
+      "diagram_svg": "",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "연립방정식",
+      "tags": [
+        "중2-1",
+        "연립방정식",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "−2",
+        "1",
+        "5",
+        "2",
+        "8"
+      ],
+      "answer_spec": {
+        "correct_index": 3
+      },
+      "explanation_html": "<ol><li>두 식을 더하면 3x=15, x=5이고 y=3이다.</li><li>x−y=5−3=2이다.</li></ol><p><strong>정답</strong>: ④ 2</p><p><strong>오답 기준</strong>: 해 x 또는 y, 혹은 이미 주어진 x+y를 답하지 않는다.</p><p><strong>재시험</strong>: x+y=10, 2x−y=5일 때 x−y를 구해 보자.</p>",
+      "level": 10,
+      "base_xp": 60,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-011",
+      "title": "11. 중2-2 피타고라스 정리",
+      "body_html": "<p>두 직각변이 9 cm, 12 cm인 직각삼각형의 빗변 길이는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"직각변이 9센티미터와 12센티미터인 직각삼각형\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M80 195H350L80 45Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M80 175H100V195\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"190\" y=\"218\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">12 cm</text><text x=\"28\" y=\"126\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">9 cm</text><text x=\"212\" y=\"102\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">?</text></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "피타고라스",
+      "tags": [
+        "중2-2",
+        "피타고라스",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "3 cm",
+        "11 cm",
+        "13 cm",
+        "15 cm",
+        "21 cm"
+      ],
+      "answer_spec": {
+        "correct_index": 3
+      },
+      "explanation_html": "<ol><li>빗변을 c라 하면 c²=9²+12²=225이다.</li><li>길이는 양수이므로 c=15 cm이다.</li></ol><p><strong>정답</strong>: ④ 15 cm</p><p><strong>오답 기준</strong>: 두 변을 더하거나 제곱근을 빼먹지 않는다.</p><p><strong>재시험</strong>: 두 직각변이 8 cm, 15 cm일 때 빗변을 구해 보자.</p>",
+      "level": 14,
+      "base_xp": 76,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-012",
+      "title": "12. 중2-1 일차함수 그래프",
+      "body_html": "<p>(0,−2), (3,4)를 지나는 직선에서 x=2일 때 y의 값은?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"두 점 0 마이너스2와 3 4를 지나는 일차함수 좌표그래프\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M35 150H395M155 220V20\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M85 220L365 25\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><g fill=\"#17211f\"><circle cx=\"155\" cy=\"180\" r=\"5\"/><circle cx=\"305\" cy=\"90\" r=\"5\"/></g><text x=\"164\" y=\"198\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(0,−2)</text><text x=\"310\" y=\"82\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(3,4)</text><text x=\"365\" y=\"143\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">x</text><text x=\"164\" y=\"30\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">y</text><text x=\"250\" y=\"168\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">x=2</text></svg>",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "일차함수",
+      "tags": [
+        "중2-1",
+        "일차함수",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "−2",
+        "2",
+        "3",
+        "4",
+        "6"
+      ],
+      "answer_spec": {
+        "correct_index": 1
+      },
+      "explanation_html": "<ol><li>기울기는 (4−(−2))/(3−0)=2, y절편은 −2이다.</li><li>y=2x−2에 x=2를 넣으면 y=2이다.</li></ol><p><strong>정답</strong>: ② 2</p><p><strong>오답 기준</strong>: −2는 y절편이고, 3이나 4는 주어진 점을 그대로 읽은 값이다.</p><p><strong>재시험</strong>: 같은 직선에서 x=4일 때 y를 구해 보자.</p>",
+      "level": 11,
+      "base_xp": 64,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-013",
+      "title": "13. 중1-2 삼각형의 합동",
+      "body_html": "<p>그림처럼 대응하는 두 변과 그 끼인각이 각각 같을 때 합동 조건은?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"두 삼각형에서 대응하는 두 변과 그 끼인각이 같다고 표시된 그림\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M35 195L115 45L185 195Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M235 195L310 45L390 195Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M68 131l15 8M274 127l15 8M150 118l-13 10M353 117l-13 10\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><path d=\"M95 78A32 32 0 0 1 135 80M289 80A31 31 0 0 1 331 80\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"91\" y=\"222\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">△ABC</text><text x=\"280\" y=\"222\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">△DEF</text></svg>",
+      "grade": "중1",
+      "semester": "1-2",
+      "unit": "삼각형의",
+      "tags": [
+        "중1-2",
+        "삼각형의",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "SSS",
+        "ASA",
+        "SAS",
+        "RHS",
+        "RHA"
+      ],
+      "answer_spec": {
+        "correct_index": 2
+      },
+      "explanation_html": "<ol><li>표시된 것은 두 변 S, S와 그 사이의 각 A이다.</li><li>따라서 SAS 합동이다.</li></ol><p><strong>정답</strong>: ③ SAS</p><p><strong>오답 기준</strong>: 각이 두 변 사이에 끼인각인지 먼저 확인한다.</p><p><strong>재시험</strong>: 두 각과 그 끼인변이 같은 그림은 어떤 조건인지 말해 보자.</p>",
+      "level": 15,
+      "base_xp": 80,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-014",
+      "title": "14. 중2-2 직각삼각형의 합동",
+      "body_html": "<p>두 직각삼각형에서 빗변과 한 직각변의 길이가 각각 같을 때 합동 조건은?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"두 직각삼각형에서 빗변과 한 직각변이 같다고 표시된 그림\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M35 195H190L35 55ZM235 195H390L390 55Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M35 175H55V195M370 195V175H390\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M96 116l12-10M316 111l12 10M95 195v-12M315 195v-12\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><text x=\"80\" y=\"224\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">직각삼각형</text><text x=\"282\" y=\"224\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">직각삼각형</text></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "직각삼각형의",
+      "tags": [
+        "중2-2",
+        "직각삼각형의",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "RHS",
+        "RHA",
+        "SSS",
+        "SAS",
+        "ASA"
+      ],
+      "answer_spec": {
+        "correct_index": 0
+      },
+      "explanation_html": "<ol><li>두 삼각형 모두 직각삼각형이다.</li><li>빗변 H와 한 직각변 S가 같으므로 RHS이다.</li></ol><p><strong>정답</strong>: ① RHS</p><p><strong>오답 기준</strong>: 한 예각이 같을 때의 RHA와 혼동하지 않는다.</p><p><strong>재시험</strong>: 빗변과 한 예각이 같다면 어떤 조건인지 말해 보자.</p>",
+      "level": 16,
+      "base_xp": 84,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-015",
+      "title": "15. 중1-2 입체도형의 측정",
+      "body_html": "<p>밑면 반지름 2 cm, 높이 6 cm인 원기둥의 부피는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"반지름 2센티미터 높이 6센티미터인 원기둥\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><ellipse cx=\"210\" cy=\"50\" rx=\"95\" ry=\"28\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M115 50V190M305 50V190\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><ellipse cx=\"210\" cy=\"190\" rx=\"95\" ry=\"28\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M210 50H300\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><path d=\"M325 50V190\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><text x=\"235\" y=\"42\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">2 cm</text><text x=\"332\" y=\"125\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">6 cm</text></svg>",
+      "grade": "중1",
+      "semester": "1-2",
+      "unit": "입체도형의",
+      "tags": [
+        "중1-2",
+        "입체도형의",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "8π cm³",
+        "12π cm³",
+        "16π cm³",
+        "36π cm³",
+        "24π cm³"
+      ],
+      "answer_spec": {
+        "correct_index": 4
+      },
+      "explanation_html": "<ol><li>밑넓이는 π×2²=4π cm²이다.</li><li>부피=밑넓이×높이=4π×6=24π cm³이다.</li></ol><p><strong>정답</strong>: ⑤ 24π cm³</p><p><strong>오답 기준</strong>: 반지름을 제곱하고 높이를 곱하며 겉넓이와 구분한다.</p><p><strong>재시험</strong>: 반지름 3 cm, 높이 4 cm인 원기둥 부피를 구해 보자.</p>",
+      "level": 17,
+      "base_xp": 88,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-016",
+      "title": "16. 중2-2 삼각형의 닮음",
+      "body_html": "<p>DE∥BC, AD=4, DB=2, AE=6일 때 EC의 길이는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"삼각형 ABC에서 DE와 BC가 평행이고 네 선분 길이가 표시된 그림\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M210 25L55 210H365Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M128 123H292\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><text x=\"202\" y=\"20\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">A</text><text x=\"38\" y=\"229\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">B</text><text x=\"370\" y=\"229\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">C</text><text x=\"108\" y=\"122\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">D</text><text x=\"298\" y=\"122\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">E</text><text x=\"145\" y=\"74\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">4</text><text x=\"82\" y=\"171\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">2</text><text x=\"258\" y=\"74\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">6</text><text x=\"173\" y=\"147\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">DE ∥ BC</text></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "삼각형의",
+      "tags": [
+        "중2-2",
+        "삼각형의",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "1",
+        "2",
+        "4",
+        "6",
+        "3"
+      ],
+      "answer_spec": {
+        "correct_index": 4
+      },
+      "explanation_html": "<ol><li>AB=4+2=6이고 △ADE∽△ABC이다.</li><li>AD:AB=AE:AC에서 4:6=6:AC, AC=9이므로 EC=3이다.</li></ol><p><strong>정답</strong>: ⑤ 3</p><p><strong>오답 기준</strong>: AC 전체 9를 답하지 말고 AE=6을 뺀 EC를 답한다.</p><p><strong>재시험</strong>: AD=6, DB=3, AE=8로 바꾸면 EC는?</p>",
+      "level": 18,
+      "base_xp": 92,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-017",
+      "title": "17. 중2-1 일차함수의 식",
+      "body_html": "<p>두 점 (−1,5), (2,−1)을 지나는 y=ax+b에서 b는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"x와 y의 두 행에 두 점의 좌표를 나타낸 값의 표\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><rect x=\"70\" y=\"45\" width=\"280\" height=\"140\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M70 115H350M160 45V185M255 45V185\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"110\" y=\"88\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">x</text><text x=\"195\" y=\"88\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">−1</text><text x=\"295\" y=\"88\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">2</text><text x=\"110\" y=\"158\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">y</text><text x=\"200\" y=\"158\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">5</text><text x=\"294\" y=\"158\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">−1</text></svg>",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "일차함수의",
+      "tags": [
+        "중2-1",
+        "일차함수의",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "−3",
+        "−2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer_spec": {
+        "correct_index": 2
+      },
+      "explanation_html": "<ol><li>기울기 a=(−1−5)/(2−(−1))=−2이다.</li><li>5=−2×(−1)+b이므로 b=3이다.</li></ol><p><strong>정답</strong>: ③ 3</p><p><strong>오답 기준</strong>: 기울기 −2나 한 점의 y값 5를 절편으로 답하지 않는다.</p><p><strong>재시험</strong>: (0,b)를 직접 구한 뒤 그래프에 표시해 보자.</p>",
+      "level": 19,
+      "base_xp": 96,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-018",
+      "title": "18. 중2-2 경우의 수와 확률",
+      "body_html": "<p>서로 다른 두 동전을 던질 때 앞면이 정확히 하나 나올 확률은?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"서로 다른 두 동전의 앞면과 뒷면 표본공간 2 곱하기 2 표\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><rect x=\"75\" y=\"35\" width=\"300\" height=\"180\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M75 95H375M75 155H375M175 35V215M275 35V215\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"105\" y=\"72\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">동전</text><text x=\"210\" y=\"72\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">앞</text><text x=\"310\" y=\"72\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">뒤</text><text x=\"110\" y=\"132\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">앞</text><text x=\"195\" y=\"132\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(앞,앞)</text><text x=\"292\" y=\"132\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(앞,뒤)</text><text x=\"110\" y=\"192\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">뒤</text><text x=\"195\" y=\"192\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(뒤,앞)</text><text x=\"292\" y=\"192\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(뒤,뒤)</text></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "경우의",
+      "tags": [
+        "중2-2",
+        "경우의",
+        "기본 72점"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "1/4",
+        "1/2",
+        "3/4",
+        "1/3",
+        "2/3"
+      ],
+      "answer_spec": {
+        "correct_index": 1
+      },
+      "explanation_html": "<ol><li>전체 결과는 표의 네 칸으로 같은 가능성이다.</li><li>(앞,뒤), (뒤,앞) 두 칸이므로 2/4=1/2이다.</li></ol><p><strong>정답</strong>: ② 1/2</p><p><strong>오답 기준</strong>: 정확히 하나와 적어도 하나를 구분하고 두 동전을 구별한다.</p><p><strong>재시험</strong>: 앞면이 적어도 하나 나올 확률을 같은 표에서 구해 보자.</p>",
+      "level": 20,
+      "base_xp": 100,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-019",
+      "title": "19. 중2-1 일차함수와 교점",
+      "body_html": "<p>f는 (0,−2),(4,6), g는 (0,4),(4,0)을 지난다. 두 그래프 교점의 x+y는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"직선 f와 점선 직선 g의 교점을 읽는 좌표그래프\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M35 175H395M125 225V20\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M80 225L350 25\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M45 70L370 205\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><circle cx=\"230\" cy=\"115\" r=\"6\" fill=\"#fff\" stroke=\"#17211f\" stroke-width=\"3\"/><text x=\"332\" y=\"45\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">f (실선)</text><text x=\"300\" y=\"194\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">g (점선)</text><text x=\"236\" y=\"108\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">교점</text><text x=\"134\" y=\"202\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(0,−2)</text><text x=\"130\" y=\"65\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">(0,4)</text></svg>",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "일차함수와",
+      "tags": [
+        "중2-1",
+        "일차함수와",
+        "확장"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "0",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer_spec": {
+        "correct_index": 3
+      },
+      "explanation_html": "<ol><li>f: y=2x−2, g: y=−x+4이다. 두 식을 같게 두면 3x=6, x=2, y=2이다.</li><li>따라서 x+y=4이다.</li></ol><p><strong>정답</strong>: ④ 4</p><p><strong>오답 기준</strong>: 교점의 x 또는 y 하나만 답하지 않는다.</p><p><strong>재시험</strong>: f의 y절편을 −3으로 바꾸고 새 교점을 구해 보자.</p>",
+      "level": 21,
+      "base_xp": 104,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-020",
+      "title": "20. 중1-2 대표값과 도수",
+      "body_html": "<p>값 1,2,3,4의 도수가 각각 2,3,k,1이고 평균이 2.5일 때 k는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"값 1 2 3 4와 도수 2 3 k 1을 나타낸 표\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><rect x=\"45\" y=\"45\" width=\"330\" height=\"140\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M45 115H375M125 45V185M187 45V185M249 45V185M311 45V185\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"72\" y=\"87\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">값</text><text x=\"150\" y=\"87\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">1</text><text x=\"212\" y=\"87\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">2</text><text x=\"274\" y=\"87\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">3</text><text x=\"336\" y=\"87\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">4</text><text x=\"62\" y=\"157\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">도수</text><text x=\"150\" y=\"157\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">2</text><text x=\"212\" y=\"157\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">3</text><text x=\"274\" y=\"157\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">k</text><text x=\"336\" y=\"157\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">1</text></svg>",
+      "grade": "중1",
+      "semester": "1-2",
+      "unit": "대표값과",
+      "tags": [
+        "중1-2",
+        "대표값과",
+        "확장"
+      ],
+      "answer_type": "choice",
+      "choices": [
+        "6",
+        "5",
+        "4",
+        "3",
+        "2"
+      ],
+      "answer_spec": {
+        "correct_index": 0
+      },
+      "explanation_html": "<ol><li>가중합은 1×2+2×3+3k+4×1=12+3k, 총도수는 6+k이다.</li><li>(12+3k)/(6+k)=2.5에서 12+3k=15+2.5k, k=6이다.</li></ol><p><strong>정답</strong>: ① 6</p><p><strong>오답 기준</strong>: 값 네 개의 단순 평균이나 k를 뺀 총도수를 사용하지 않는다.</p><p><strong>재시험</strong>: 마지막 도수를 2로 바꾸면 같은 평균에서 k는?</p>",
+      "level": 22,
+      "base_xp": 108,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-021",
+      "title": "21. 중2-1 연립방정식 활용",
+      "body_html": "<p>공책 2권과 펜 3자루는 6,900원, 공책 3권과 펜 1자루는 6,500원이다. 공책 한 권 가격은 몇 원인가?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"공책과 펜 두 구매 내역을 나타낸 영수증 표\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><rect x=\"55\" y=\"25\" width=\"310\" height=\"200\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M55 80H365M55 145H365M260 25V225\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><text x=\"103\" y=\"58\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">구매 내역</text><text x=\"292\" y=\"58\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">합계</text><text x=\"83\" y=\"119\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">공책 2권 + 펜 3자루</text><text x=\"282\" y=\"119\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">6,900원</text><text x=\"83\" y=\"186\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">공책 3권 + 펜 1자루</text><text x=\"282\" y=\"186\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">6,500원</text></svg>",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "연립방정식",
+      "tags": [
+        "중2-1",
+        "연립방정식",
+        "확장"
+      ],
+      "answer_type": "text",
+      "choices": [],
+      "answer_spec": {
+        "accepted": [
+          "1800",
+          "1800원"
+        ],
+        "partial": [],
+        "rubric": ""
+      },
+      "explanation_html": "<ol><li>공책 가격을 x원, 펜 가격을 y원이라 하면 2x+3y=6900, 3x+y=6500이다.</li><li>두 번째 식을 3배하여 첫 식을 빼면 7x=12600, x=1800이다.</li></ol><p><strong>정답</strong>: 1,800원</p><p><strong>오답 기준</strong>: 물품 수 식과 금액 식을 섞지 않고 마지막에 어떤 가격을 묻는지 확인한다.</p><p><strong>재시험</strong>: 공책 2권+펜 1자루=5,000원이라는 새 조건에서 가격을 다시 구해 보자.</p>",
+      "level": 23,
+      "base_xp": 112,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-022",
+      "title": "22. 중2-2 피타고라스와 좌표",
+      "body_html": "<p>좌표평면에서 A(1,1), B(7,1), C(7,9)일 때 선분 AC의 길이는?</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"좌표평면의 점 A 1 1, B 7 1, C 7 9와 직각 표시\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M35 210H395M70 230V15\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M110 190H320V40M110 190L320 40\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><path d=\"M300 190V170H320\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"110\" cy=\"190\" r=\"5\"/><circle cx=\"320\" cy=\"190\" r=\"5\"/><circle cx=\"320\" cy=\"40\" r=\"5\"/><text x=\"82\" y=\"182\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">A(1,1)</text><text x=\"325\" y=\"207\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">B(7,1)</text><text x=\"320\" y=\"33\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">C(7,9)</text></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "피타고라스와",
+      "tags": [
+        "중2-2",
+        "피타고라스와",
+        "확장"
+      ],
+      "answer_type": "text",
+      "choices": [],
+      "answer_spec": {
+        "accepted": [
+          "10",
+          "10단위"
+        ],
+        "partial": [],
+        "rubric": ""
+      },
+      "explanation_html": "<ol><li>AB=7−1=6, BC=9−1=8이고 ∠ABC=90°이다.</li><li>AC=√(6²+8²)=√100=10이다.</li></ol><p><strong>정답</strong>: 10</p><p><strong>오답 기준</strong>: 좌표의 차를 각각 구한 뒤 직각삼각형의 두 변으로 사용한다.</p><p><strong>재시험</strong>: C를 (7,13)으로 옮기면 AC의 길이는?</p>",
+      "level": 24,
+      "base_xp": 116,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-023",
+      "title": "23. 중2-1 다항식의 계산",
+      "body_html": "<p>A=3x²−2x+4, B=x²+5x−1일 때 A−2B를 간단히 한 뒤 x=−1에서의 값을 구하시오.</p>",
+      "diagram_svg": "",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "다항식의",
+      "tags": [
+        "중2-1",
+        "다항식의",
+        "확장"
+      ],
+      "answer_type": "text",
+      "choices": [],
+      "answer_spec": {
+        "accepted": [
+          "19"
+        ],
+        "partial": [],
+        "rubric": ""
+      },
+      "explanation_html": "<ol><li>A−2B=3x²−2x+4−2(x²+5x−1)=x²−12x+6이다.</li><li>x=−1을 대입하면 1+12+6=19이다.</li></ol><p><strong>정답</strong>: 19</p><p><strong>오답 기준</strong>: −2를 B의 모든 항에 분배하고 음수 x의 제곱과 일차항 부호를 구분한다.</p><p><strong>재시험</strong>: x=1을 대입했을 때 값을 다시 구해 보자.</p>",
+      "level": 25,
+      "base_xp": 120,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-024",
+      "title": "24. 중2-2 평행사변형과 합동",
+      "body_html": "<p>평행사변형 ABCD의 대각선 교점 O에서 △AOB≡△COD임을 보이는 세 조건과 합동 조건을 쓰시오.</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"평행사변형 ABCD의 두 대각선과 교점 O\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M105 35H350L305 205H60Z\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M105 35L305 205M350 35L60 205\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"205\" cy=\"120\" r=\"4\"/><text x=\"88\" y=\"28\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">A</text><text x=\"355\" y=\"30\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">B</text><text x=\"310\" y=\"225\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">C</text><text x=\"42\" y=\"225\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">D</text><text x=\"211\" y=\"116\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">O</text><path d=\"M78 65l18 5M318 190l18 5M275 72l18-5M110 190l18-5\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/></svg>",
+      "grade": "중2",
+      "semester": "2-2",
+      "unit": "평행사변형과",
+      "tags": [
+        "중2-2",
+        "평행사변형과",
+        "확장"
+      ],
+      "answer_type": "process",
+      "choices": [],
+      "answer_spec": {
+        "accepted": [
+          "AO=CO, BO=DO, ∠AOB=∠COD, SAS"
+        ],
+        "partial": [
+          {
+            "points": 1,
+            "tokens": [
+              "AO=CO",
+              "CO=AO"
+            ]
+          },
+          {
+            "points": 1,
+            "tokens": [
+              "BO=DO",
+              "DO=BO"
+            ]
+          },
+          {
+            "points": 1,
+            "tokens": [
+              "맞꼭지",
+              "AOB=COD",
+              "COD=AOB"
+            ]
+          },
+          {
+            "points": 1,
+            "tokens": [
+              "SAS"
+            ]
+          }
+        ],
+        "rubric": "AO=CO 1점 · BO=DO 1점 · ∠AOB=∠COD(맞꼭지각) 1점 · SAS 결론 1점"
+      },
+      "explanation_html": "<ol><li>평행사변형의 대각선은 서로를 이등분하므로 AO=CO, BO=DO이다.</li><li>∠AOB=∠COD는 맞꼭지각이다. 두 변과 끼인각이 같으므로 SAS 합동이다.</li></ol><p><strong>정답</strong>: AO=CO, BO=DO, ∠AOB=∠COD, SAS</p><p><strong>오답 기준</strong>: 평행사변형의 대각선 전체가 서로 같다고 쓰면 일반적으로 성립하지 않는다.</p><p><strong>재시험</strong>: △AOD와 △COB의 합동도 같은 세 조건으로 설명해 보자.</p><p><strong>채점 루브릭</strong>: AO=CO 1점 · BO=DO 1점 · ∠AOB=∠COD(맞꼭지각) 1점 · SAS 결론 1점</p>",
+      "level": 26,
+      "base_xp": 124,
+      "state": "published"
+    },
+    {
+      "external_key": "math70-v2-025",
+      "title": "25. 중2-1 연립·일차함수 통합",
+      "body_html": "<p>두 직선 y=−x+7, y=2x−2의 교점 P와 Q(5,0)을 지나는 직선을 y=ax+b라 할 때 풀이 과정과 a+b를 쓰시오.</p>",
+      "diagram_svg": "<svg viewBox=\"0 0 420 240\" role=\"img\" aria-label=\"두 직선과 교점 P 그리고 점 Q 5 0을 나타낸 좌표그래프\" xmlns=\"http://www.w3.org/2000/svg\"><rect width=\"100%\" height=\"100%\" fill=\"#fff\"/><path d=\"M25 185H400M90 225V15\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M45 25L350 225\" stroke=\"#263b37\" stroke-width=\"3\" fill=\"none\"/><path d=\"M45 220L240 20\" stroke=\"#315e58\" stroke-width=\"4\" fill=\"none\" stroke-dasharray=\"9 5\"/><circle cx=\"180\" cy=\"105\" r=\"6\" fill=\"#fff\" stroke=\"#17211f\" stroke-width=\"3\"/><circle cx=\"340\" cy=\"185\" r=\"6\" fill=\"#17211f\"/><text x=\"187\" y=\"98\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">P</text><text x=\"344\" y=\"178\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">Q(5,0)</text><text x=\"248\" y=\"41\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">y=2x−2 (점선)</text><text x=\"255\" y=\"218\" font-family=\"sans-serif\" font-size=\"17\" fill=\"#17211f\">y=−x+7 (실선)</text></svg>",
+      "grade": "중2",
+      "semester": "2-1",
+      "unit": "연립·일차함수",
+      "tags": [
+        "중2-1",
+        "연립·일차함수",
+        "확장"
+      ],
+      "answer_type": "process",
+      "choices": [],
+      "answer_spec": {
+        "accepted": [
+          "P=(3,4), a=-2, b=10, a+b=8"
+        ],
+        "partial": [
+          {
+            "points": 2,
+            "tokens": [
+              "P=(3,4)",
+              "(3,4)",
+              "P=3,4"
+            ]
+          },
+          {
+            "points": 1,
+            "tokens": [
+              "a=-2",
+              "기울기=-2"
+            ]
+          },
+          {
+            "points": 1,
+            "tokens": [
+              "b=10",
+              "a+b=8"
+            ]
+          }
+        ],
+        "rubric": "교점 P=(3,4) 2점 · 기울기 a=−2 1점 · b=10과 a+b=8 1점"
+      },
+      "explanation_html": "<ol><li>−x+7=2x−2에서 3x=9, x=3, y=4이므로 P=(3,4)이다.</li><li>PQ의 기울기 a=(0−4)/(5−3)=−2이다. 4=−2×3+b에서 b=10, 따라서 a+b=8이다.</li></ol><p><strong>정답</strong>: 8</p><p><strong>오답 기준</strong>: 교점 P를 먼저 구하고, PQ의 기울기에서 좌표의 뺄셈 순서를 위아래 똑같이 맞춘다.</p><p><strong>재시험</strong>: Q를 (7,0)으로 바꾸었을 때 새 직선의 a+b를 구해 보자.</p><p><strong>채점 루브릭</strong>: 교점 P=(3,4) 2점 · 기울기 a=−2 1점 · b=10과 a+b=8 1점</p>",
+      "level": 27,
+      "base_xp": 128,
+      "state": "published"
+    }
+  ],
+  "exams": [
+    {
+      "slug": "math70-v2",
+      "title": "중등 수학 70점 돌파 모의고사 v2",
+      "time_limit_seconds": 7200,
+      "state": "published",
+      "items": [
+        {
+          "sequence": 1,
+          "problem_external_key": "math70-v2-001",
+          "points": 4
+        },
+        {
+          "sequence": 2,
+          "problem_external_key": "math70-v2-002",
+          "points": 4
+        },
+        {
+          "sequence": 3,
+          "problem_external_key": "math70-v2-003",
+          "points": 4
+        },
+        {
+          "sequence": 4,
+          "problem_external_key": "math70-v2-004",
+          "points": 4
+        },
+        {
+          "sequence": 5,
+          "problem_external_key": "math70-v2-005",
+          "points": 4
+        },
+        {
+          "sequence": 6,
+          "problem_external_key": "math70-v2-006",
+          "points": 4
+        },
+        {
+          "sequence": 7,
+          "problem_external_key": "math70-v2-007",
+          "points": 4
+        },
+        {
+          "sequence": 8,
+          "problem_external_key": "math70-v2-008",
+          "points": 4
+        },
+        {
+          "sequence": 9,
+          "problem_external_key": "math70-v2-009",
+          "points": 4
+        },
+        {
+          "sequence": 10,
+          "problem_external_key": "math70-v2-010",
+          "points": 4
+        },
+        {
+          "sequence": 11,
+          "problem_external_key": "math70-v2-011",
+          "points": 4
+        },
+        {
+          "sequence": 12,
+          "problem_external_key": "math70-v2-012",
+          "points": 4
+        },
+        {
+          "sequence": 13,
+          "problem_external_key": "math70-v2-013",
+          "points": 4
+        },
+        {
+          "sequence": 14,
+          "problem_external_key": "math70-v2-014",
+          "points": 4
+        },
+        {
+          "sequence": 15,
+          "problem_external_key": "math70-v2-015",
+          "points": 4
+        },
+        {
+          "sequence": 16,
+          "problem_external_key": "math70-v2-016",
+          "points": 4
+        },
+        {
+          "sequence": 17,
+          "problem_external_key": "math70-v2-017",
+          "points": 4
+        },
+        {
+          "sequence": 18,
+          "problem_external_key": "math70-v2-018",
+          "points": 4
+        },
+        {
+          "sequence": 19,
+          "problem_external_key": "math70-v2-019",
+          "points": 4
+        },
+        {
+          "sequence": 20,
+          "problem_external_key": "math70-v2-020",
+          "points": 4
+        },
+        {
+          "sequence": 21,
+          "problem_external_key": "math70-v2-021",
+          "points": 4
+        },
+        {
+          "sequence": 22,
+          "problem_external_key": "math70-v2-022",
+          "points": 4
+        },
+        {
+          "sequence": 23,
+          "problem_external_key": "math70-v2-023",
+          "points": 4
+        },
+        {
+          "sequence": 24,
+          "problem_external_key": "math70-v2-024",
+          "points": 4
+        },
+        {
+          "sequence": 25,
+          "problem_external_key": "math70-v2-025",
+          "points": 4
+        }
+      ]
+    }
+  ]
+}

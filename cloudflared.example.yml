@@ -1,0 +1,7 @@
+tunnel: mm70-example
+credentials-file: /etc/cloudflared/mm70-example.json
+
+ingress:
+  - hostname: math70.example.com
+    service: http://127.0.0.1:8000
+  - service: http_status:404

@@ -1,106 +1,137 @@
-# 중등 수학 70점 돌파 모의고사 v2
+# 중등 수학 70 중앙 플랫폼
 
-중1-2, 중2-1, 중2-2 범위의 기본 점수를 먼저 회수하도록 만든 **의존성 없는 단일 HTML CBT 앱**입니다. 모든 문항·보기·해설·SVG는 새로 작성했으며 특정 학원의 공식 자료가 아닙니다.
+FastAPI + PostgreSQL 기반 계정형 수학 연습 플랫폼입니다. 기존 단일 HTML CBT의 25문항은 `content/bundles/math70-v2.json`으로 이관했고, 기존 PDF 계약은 그대로 유지합니다.
 
-## v2 구성
+- `middle-math-70-exam.pdf`
+- `middle-math-70-solutions.pdf`
 
-- 실전 모의고사: **25문항 × 4점 = 100점**, 제한 시간 120분
-- 응답 형식: **객관식 1~20 / 단답형 21~23 / 과정형 24~25**
-- 기본 점수 은행: **1~18번 = 72점**
-  - 중1-2, 중2-1, 중2-2에서 각각 기본 6문항
-- 전체 범위 배분: 중1-2 7문항 / 중2-1 10문항 / 중2-2 8문항
-- 객관식 정답 위치: ①~⑤가 각각 정확히 4회
-- 실전 시각자료: 20문항에 풀이용 SVG 도형·표·그래프
-- 해설: 풀이 단계, 대표 오답 기준, 수치가 바뀐 재시험, 과정형 부분점수 루브릭
+solved.ac의 문제 난이도/티어/첫 풀이 보상 방식에서 아이디어를 얻었지만, 이미지 파일, 로고, CSS, 브랜드 표현은 복사하지 않았습니다. 티어 배지는 이 저장소에서 새로 만든 SVG입니다.
 
-문항 설계의 세부 근거는 `V2_ITEM_BLUEPRINT.md`를 참고하세요.
+## 아키텍처
 
-## CBT 기능
-
-- 데스크톱 고정 문항 사이드바와 모바일 접이식 문항표
-- 응답 / 미응답 / 검토 상태 표시와 번호 이동
-- 무응답 이전·다음·건너뛰기, 답안 수정
-- 답안·검토·남은 시간·현재 문항을 `localStorage`에 자동 저장하고 복원
-- 타이머 숨기기, 45·75·100분 무음 체크포인트
-- 키보드: `←` 이전, `→` 다음, `F` 검토 표시, 객관식 `1`~`5`
-- 학습 모드의 명시적 `모르겠음 · 건너뛰기`
-- 실전 제출 전 정오·해설 차단
-- native `alert`/`confirm` 대신 미응답·검토 문항을 보여 주는 제출 리뷰
-- 과정형 자동 부분점수와 제출 뒤 오답·부분점수 해설
-
-## 접근성·인쇄
-
-- 모든 SVG에 `role="img"`와 한국어 `aria-label` 적용
-- 평행·직각·같은 길이·그래프 계열을 색뿐 아니라 점선·각/길이 표식·텍스트로 구분
-- 인쇄 시 SVG 회색조 적용, A4 페이지 분리와 문항 내부 잘림 방지
-- 문제지에서 객관식/단답형/과정형을 별도 구역으로 구분
-- 과정형 문항마다 6줄의 풀이 공간 제공
-- 인쇄 해설에 원문 시각자료와 과정형 채점 루브릭 포함
-
-직접 인쇄 경로:
-
-- 문제지: `index.html?print=exam`
-- 해설지: `index.html?print=solutions`
-
-기존 공개 파일명 계약은 그대로 유지합니다.
-
-- `middle-math-70-exam.pdf` — A4 11쪽
-- `middle-math-70-solutions.pdf` — A4 14쪽
-
-PDF를 다시 만들 때는 Chrome 기본 머리말·URL·꼬리말이 들어가지 않도록 반드시 `--no-pdf-header-footer`를 사용합니다.
-
-```bash
-google-chrome --headless=new --no-sandbox --no-pdf-header-footer \
-  --print-to-pdf=middle-math-70-exam.pdf \
-  'http://127.0.0.1:8765/index.html?print=exam&test=1'
-google-chrome --headless=new --no-sandbox --no-pdf-header-footer \
-  --print-to-pdf=middle-math-70-solutions.pdf \
-  'http://127.0.0.1:8765/index.html?print=solutions&test=1'
-```
+- Python 3.11, FastAPI, SQLAlchemy 2, Alembic
+- PostgreSQL 16, psycopg 3
+- 같은 출처에서 HTML UI와 `/api` 제공
+- 운영 세션은 HttpOnly Secure SameSite=Lax 쿠키
+- 쿠키에는 불투명 랜덤 토큰만 저장하고 DB에는 SHA-256 토큰 해시만 저장
+- 비밀번호는 Argon2id 해시만 저장
+- mutating cookie-auth 요청은 세션 바운드 `X-CSRF-Token` 필요
+- 관리자 권한은 일반 가입으로 부여되지 않으며 `mm70 bootstrap-admin` 1회성 CLI로만 생성
+- 사용자 이름은 NFKC-trimmed 표시 이름을 보존하고, 로그인/중복 검사는 NFKC+casefold 키로 수행
+- 가입과 로그인은 trusted client IP 기준으로 서버 rate limit 적용
+- 문제 목록은 grade/semester/unit/level/solved 필터와 사용자별 solved 상태를 반환
+- 모의고사 응시는 `started_at`/`deadline_at` 서버 시간을 가지며, 제출 뒤 autosave는 거부됨
+- 제출 idempotency key는 첫 제출 결과/리뷰 snapshot을 재사용하고, 다른 key 또는 제출 후 답안 변경은 409
+- `/api/profile`은 XP, 티어, solve count, 최근 응시 요약을 반환
 
 ## 로컬 실행
 
-정적 파일이므로 `index.html`을 직접 열 수 있습니다. 자동저장과 인쇄 팝업을 안정적으로 확인하려면 로컬 서버를 권장합니다.
-
 ```bash
-python3 -m http.server 8765
+uv sync --extra test
+cp .env.example .env
+# .env의 POSTGRES_PASSWORD, MM70_SECRET_KEY 값을 새 값으로 교체
+docker-compose up --build
 ```
 
-그 뒤 `http://127.0.0.1:8765/index.html`을 엽니다. 외부 JavaScript, 웹 폰트, MathJax 또는 빌드 단계가 필요하지 않습니다.
+앱은 기본적으로 `http://127.0.0.1:8000`에 바인딩됩니다. Postgres는 호스트 포트로 공개하지 않고 Compose 내부 네트워크에만 노출됩니다.
 
-## 브라우저 자동검사
-
-`browser_test.py`는 실제 headless Chrome으로 다음을 검증합니다.
-
-- 문항 수·응답 형식·학기 배분·1~18 기본 72점 구조
-- 객관식 정답 분포·보기 중복
-- 시각자료 수·SVG ARIA·흑백 선 구분
-- 학습/실전 무응답 이동·번호 점프·검토·답변 변경
-- 제출 전 해설 차단·제출 리뷰·과정형 부분점수·100점 채점
-- 답안/검토/시간/현재 문항 저장 복원
-- 키보드·타이머 숨김·390px 모바일 문항표·가로 스크롤
-- 문제지/해설 인쇄 경로와 과정형 풀이 공간·루브릭
-- 데스크톱·모바일·문제지·해설지 PNG 스크린샷
-
-처음 한 번 테스트 환경을 만듭니다.
+관리자 생성:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/pip install selenium beautifulsoup4
+docker-compose exec -T app mm70 bootstrap-admin --username '관리자' < /secure/path/admin-password
 ```
 
-검사 실행:
+비대화형 실행에서는 비밀번호를 stdin으로 읽습니다. 비밀번호를 명령 인자나 shell history에 넣지 마세요. 이미 존재하는 일반 사용자는 자동 승격하지 않으며 운영자 부트스트랩으로 생성한 계정만 관리자입니다.
+
+## 현재 self-host 운영
+
+- 운영 DB: 전용 PostgreSQL 16 Compose volume
+- DB 포트: 외부 비공개
+- 앱: `127.0.0.1:8000` 전용 바인딩
+- 공개 경로: Cloudflare Tunnel HTTPS
+- 상시 실행: `ops/systemd/middle-math-70-compose.service`, `middle-math-70-tunnel.service`
+- 백업: 별도 디스크 `/srv/ssd/backups/middle-math-70`, 매일 03:20 KST, 30일 보관
+
+설치 예시:
 
 ```bash
-.venv/bin/python browser_test.py
+mkdir -p ~/.config/systemd/user
+cp ops/systemd/*.service ops/systemd/*.timer ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now middle-math-70-compose.service middle-math-70-tunnel.service middle-math-70-backup.timer
 ```
 
-성공 시 마지막에 `ALL TESTS PASSED`가 출력되고 스크린샷은 `test-artifacts/`에 생성됩니다.
+현재 tunnel 주소는 `runtime/public-url.txt`에 원자적으로 기록됩니다. Quick Tunnel은 계정 없는 즉시 배포 경로라 URL·가용성 보장이 없으며, 요구가 커지면 named tunnel 또는 관리형 호스팅으로 전환합니다.
 
-## 파일
+## 콘텐츠 가져오기
 
-- `index.html`: v2 단일 HTML 웹 앱
-- `V2_ITEM_BLUEPRINT.md`: 문항 청사진과 오답·채점 설계
-- `browser_test.py`: Chrome 기반 정적·상호작용·인쇄 회귀 테스트
-- `middle-math-70-exam.pdf`: 기존 계약 파일명의 문제지 PDF
-- `middle-math-70-solutions.pdf`: 기존 계약 파일명의 해설지 PDF
+번들 형식은 `content/schema/problem-bundle-v1.schema.json`입니다. 기존 25문항 번들과 PDF 경로는 그대로 유지합니다. 새 문제/시험은 관리자 API/UI에서 초안 포함 목록, 문제 생성, immutable next version 생성, publish/current version 지정, 시험 생성, ordered problem-version 기반 immutable exam version 생성, publish/current exam version 지정을 할 수 있습니다. JSON 번들 import도 유지됩니다.
+
+```bash
+uv run mm70 import-bundle content/bundles/math70-v2.json --dry-run
+uv run mm70 import-bundle content/bundles/math70-v2.json
+```
+
+검증은 다음을 잡습니다.
+
+- 번들 내부 중복 external key
+- 난이도 1..30 범위 위반
+- 객관식 정답 인덱스와 보기 불일치
+- 단답/과정형 accepted 누락
+- 시험 item의 누락된 problem ref
+- 시험 sequence 중복
+
+`scripts/extract_legacy_bundle.mjs`는 기존 `index.html`에서 25문항을 다시 추출하는 재현용 도구입니다.
+
+## 테스트
+
+```bash
+uv run --extra test python -m pytest -q tests/test_auth_security.py tests/test_content_exam_xp.py tests/test_admin_postgres_e2e.py -m 'not postgres and not e2e'
+```
+
+실제 PostgreSQL 통합 테스트:
+
+```bash
+docker-compose up -d postgres
+TEST_DATABASE_URL='postgresql+psycopg://mm70:mm70_dev_password_change_me@127.0.0.1:5432/mm70' \
+uv run --extra test python -m pytest -q tests/test_admin_postgres_e2e.py -m postgres
+```
+
+브라우저 E2E:
+
+```bash
+uv run --extra test python -m pytest -q tests/test_admin_postgres_e2e.py -m e2e
+```
+
+전체 검증:
+
+```bash
+uv run ruff check .
+uv run --extra test python -m pytest -q -m 'not postgres and not e2e'
+TEST_DATABASE_URL='postgresql+psycopg://mm70:mm70test@127.0.0.1:55432/mm70test' uv run --extra test python -m pytest -q tests/test_admin_postgres_e2e.py -m postgres
+uv run --extra test python -m pytest -q tests/test_admin_postgres_e2e.py -m e2e
+TEST_DATABASE_URL='postgresql+psycopg://mm70:mm70test@127.0.0.1:55432/mm70test' uv run --extra test python -m pytest -q
+docker-compose build
+MM70_SECRET_KEY=smoke-secret MM70_SECURE_COOKIES=false docker-compose up -d
+curl -fsS http://127.0.0.1:8000/health
+uv run --extra test python browser_test.py
+```
+
+기존 정적 CBT 회귀 테스트는 참고용으로 남겨 두었습니다.
+
+```bash
+uv run --extra test python browser_test.py
+```
+
+## 백업과 복구
+
+```bash
+scripts/backup.sh
+scripts/restore.sh backups/mm70-YYYYMMDD-HHMMSS.dump
+```
+
+백업은 `pg_dump -Fc`, 복구는 `pg_restore --clean --if-exists`를 사용합니다.
+
+## TLS/Reverse Proxy
+
+`cloudflared.example.yml`은 예시 파일입니다. 실제 tunnel id, credentials, hostname은 배포 환경에서 별도로 관리해야 하며 저장소에 넣지 않습니다. TLS 뒤 운영에서는 `MM70_SECURE_COOKIES=true`를 유지하세요.

@@ -1,0 +1,15 @@
+[Unit]
+Description=Middle Math 70 public HTTPS quick tunnel
+Requires=middle-math-70-compose.service
+After=middle-math-70-compose.service network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/projects/middle-math-70
+Environment=CLOUDFLARED=%h/bin/cloudflared
+ExecStart=/usr/bin/python3 %h/projects/middle-math-70/scripts/run_quick_tunnel.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

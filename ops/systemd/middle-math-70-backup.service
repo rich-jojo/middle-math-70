@@ -1,0 +1,10 @@
+[Unit]
+Description=Back up Middle Math 70 PostgreSQL to separate disk
+Requires=middle-math-70-compose.service
+After=middle-math-70-compose.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/projects/middle-math-70
+ExecStart=/bin/sh -c '%h/projects/middle-math-70/scripts/backup.sh /srv/ssd/backups/middle-math-70/mm70-$(date +%%Y%%m%%d-%%H%%M%%S).dump'
+ExecStartPost=/usr/bin/python3 %h/projects/middle-math-70/scripts/prune_backups.py /srv/ssd/backups/middle-math-70 30

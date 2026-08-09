@@ -1,0 +1,16 @@
+[Unit]
+Description=Middle Math 70 PostgreSQL and FastAPI stack
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=%h/projects/middle-math-70
+ExecStart=%h/.local/bin/docker-compose up -d --build
+ExecStop=%h/.local/bin/docker-compose down
+TimeoutStartSec=0
+TimeoutStopSec=120
+
+[Install]
+WantedBy=default.target
