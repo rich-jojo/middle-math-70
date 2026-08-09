@@ -38,7 +38,7 @@
 - 25번에 최종 답 `8`만 입력하면 0점 확인
 - 24·25번의 모든 rubric token에 부정을 붙인 거짓 답안이 0점임을 확인
 - 25번의 네 단계 긍정 풀이가 부분점수 합계 4점임을 확인
-- 전체 pytest: 24 passed, PostgreSQL 표식 2개는 별도 실제 PostgreSQL 16에서 2 passed
+- 전체 pytest: 31 passed (SQLite 단위·통합, 실제 PostgreSQL, 390×844 및 1440×1000 브라우저 E2E 포함)
 - 중앙 서비스 모바일·데스크톱 브라우저 E2E 통과
 
 ## 난도 해석
