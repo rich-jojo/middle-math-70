@@ -18,7 +18,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
 ROOT = Path(__file__).resolve().parent
-HTML = ROOT / "index.html"
+HTML = ROOT / "legacy.html"
 ARTIFACTS = ROOT / "test-artifacts"
 PORT = 8876
 
@@ -292,7 +292,7 @@ def main():
     with ReusableTCPServer(("127.0.0.1", PORT), QuietHandler) as server:
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
-        base = f"http://127.0.0.1:{PORT}/index.html"
+        base = f"http://127.0.0.1:{PORT}/legacy.html"
         driver = new_driver()
         try:
             driver.get(base)
