@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import vm from "node:vm";
 
-const source = fs.readFileSync("index.html", "utf8");
+const source = fs.readFileSync("legacy.html", "utf8");
 const script = source.match(/<script>([\s\S]*)<\/script>/)[1];
 const dataSource = script.slice(script.indexOf("const circled="), script.indexOf("const warmups="));
 const context = {};
@@ -62,7 +62,7 @@ const problems = context.mock.map((q, i) => {
 
 const bundle = {
   schema_version: 1,
-  source: "legacy index.html CBT v2",
+  source: "legacy.html CBT v2",
   notes: "solved.ac mechanics were inspiration only. This bundle uses original content, original tier badge geometry, and does not copy solved.ac image files, logo, CSS, or branding.",
   problems,
   exams: [

@@ -1,6 +1,6 @@
 # 중등 수학 70 중앙 플랫폼
 
-FastAPI + PostgreSQL 기반 계정형 수학 연습 플랫폼입니다. 기존 단일 HTML CBT의 25문항은 `content/bundles/math70-v2.json`으로 이관했고, 기존 PDF 계약은 그대로 유지합니다.
+FastAPI + PostgreSQL 기반 계정형 수학 연습 플랫폼입니다. 기존 단일 HTML CBT 25문항은 `content/bundles/math70-v2.json`, 난도를 높인 신규 25문항은 `content/bundles/math70-v3-hard.json`으로 관리하며 기존 PDF 계약도 그대로 유지합니다.
 
 - `middle-math-70-exam.pdf`
 - `middle-math-70-solutions.pdf`
@@ -49,6 +49,7 @@ docker-compose exec -T app mm70 bootstrap-admin --username '관리자' < /secure
 - DB 포트: 외부 비공개
 - 앱: `127.0.0.1:8000` 전용 바인딩
 - 공개 경로: Cloudflare Tunnel HTTPS
+- 영구 진입 주소: `https://rich-jojo.github.io/middle-math-70/`
 - 상시 실행: `ops/systemd/middle-math-70-compose.service`, `middle-math-70-tunnel.service`
 - 백업: 별도 디스크 `/srv/ssd/backups/middle-math-70`, 매일 03:20 KST, 30일 보관
 
@@ -61,15 +62,18 @@ systemctl --user daemon-reload
 systemctl --user enable --now middle-math-70-compose.service middle-math-70-tunnel.service middle-math-70-backup.timer
 ```
 
-현재 tunnel 주소는 `runtime/public-url.txt`에 원자적으로 기록됩니다. Quick Tunnel은 계정 없는 즉시 배포 경로라 URL·가용성 보장이 없으며, 요구가 커지면 named tunnel 또는 관리형 호스팅으로 전환합니다.
+현재 tunnel 주소는 `runtime/public-url.txt`에 원자적으로 기록됩니다. Quick Tunnel 자체 주소는 바뀔 수 있지만 watchdog이 `public-endpoint.json`을 GitHub API로 갱신하므로 위 GitHub Pages 주소는 영구 진입점으로 유지됩니다. `legacy.html`에서는 기존 정적 CBT v2를 직접 열 수 있습니다.
 
 ## 콘텐츠 가져오기
 
-번들 형식은 `content/schema/problem-bundle-v1.schema.json`입니다. 기존 25문항 번들과 PDF 경로는 그대로 유지합니다. 새 문제/시험은 관리자 API/UI에서 초안 포함 목록, 문제 생성, immutable next version 생성, publish/current version 지정, 시험 생성, ordered problem-version 기반 immutable exam version 생성, publish/current exam version 지정을 할 수 있습니다. JSON 번들 import도 유지됩니다.
+번들 형식은 `content/schema/problem-bundle-v1.schema.json`입니다. v2와 v3-hard는 서로 다른 문제 key와 시험 slug를 사용하며 새 설치에서는 둘 다 멱등 자동 적재됩니다. 새 문제/시험은 관리자 API/UI에서 초안 포함 목록, 문제 생성, immutable next version 생성, publish/current version 지정, 시험 생성, ordered problem-version 기반 immutable exam version 생성, publish/current exam version 지정을 할 수 있습니다. JSON 번들 import도 유지됩니다.
 
 ```bash
 uv run mm70 import-bundle content/bundles/math70-v2.json --dry-run
 uv run mm70 import-bundle content/bundles/math70-v2.json
+uv run mm70 import-bundle content/bundles/math70-v3-hard.json --dry-run
+uv run mm70 import-bundle content/bundles/math70-v3-hard.json
+uv run python scripts/verify_v3_math.py
 ```
 
 검증은 다음을 잡습니다.
@@ -77,11 +81,13 @@ uv run mm70 import-bundle content/bundles/math70-v2.json
 - 번들 내부 중복 external key
 - 난이도 1..30 범위 위반
 - 객관식 정답 인덱스와 보기 불일치
+- 객관식 중복 보기
 - 단답/과정형 accepted 누락
+- 과정형 rubric token 중복
 - 시험 item의 누락된 problem ref
-- 시험 sequence 중복
+- 시험 sequence 중복·누락·비연속
 
-`scripts/extract_legacy_bundle.mjs`는 기존 `index.html`에서 25문항을 다시 추출하는 재현용 도구입니다.
+`scripts/extract_legacy_bundle.mjs`는 보존된 `legacy.html`에서 v2 25문항을 다시 추출하는 재현용 도구입니다.
 
 ## 테스트
 

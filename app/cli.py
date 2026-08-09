@@ -15,6 +15,11 @@ from app.security import hash_password, normalize_username, username_key, valida
 app = typer.Typer(no_args_is_help=True)
 
 
+def auto_import_bundle_paths() -> list[str]:
+    configured = os.getenv("MM70_AUTO_IMPORT_BUNDLES") or os.getenv("MM70_AUTO_IMPORT_BUNDLE", "")
+    return [path.strip() for path in configured.split(",") if path.strip()]
+
+
 def bootstrap_admin(db: Session, username: str, password: str) -> dict:
     display = normalize_username(username)
     normalized = username_key(username)
@@ -67,10 +72,11 @@ def import_bundle_command(path: str, dry_run: bool = False) -> None:
 @app.command("init-db")
 def init_db() -> None:
     Base.metadata.create_all(engine)
-    bundle = os.getenv("MM70_AUTO_IMPORT_BUNDLE")
-    if bundle:
+    bundles = auto_import_bundle_paths()
+    if bundles:
         with SessionLocal() as db:
-            typer.echo(import_bundle(db, bundle, dry_run=False))
+            for bundle in bundles:
+                typer.echo(import_bundle(db, bundle, dry_run=False))
 
 
 def main() -> None:

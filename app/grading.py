@@ -15,7 +15,22 @@ def normalize_answer(value: Any) -> str:
     return re.sub(r"[\s,]", "", unicodedata.normalize("NFKC", str(value or ""))).replace("−", "-").lower()
 
 
-def is_correct(version: ProblemVersion, answer: dict) -> bool:
+NEGATION_MARKERS = ("아니", "않", "틀리", "거짓")
+
+
+def contains_asserted_token(value: str, token: str) -> bool:
+    """Return true only when a rubric token is not locally negated."""
+    start = 0
+    while (index := value.find(token, start)) != -1:
+        prefix = value[max(0, index - 6) : index]
+        suffix = value[index + len(token) : index + len(token) + 10]
+        if not any(marker in prefix or marker in suffix for marker in NEGATION_MARKERS):
+            return True
+        start = index + 1
+    return False
+
+
+def is_correct(version: ProblemVersion, answer: dict[str, Any]) -> bool:
     spec = version.answer_spec
     if version.answer_type == "choice":
         return int(answer.get("choice", -1)) == int(spec["correct_index"])
@@ -28,12 +43,13 @@ def grade_points(version: ProblemVersion, answer: dict, points: int) -> int:
         return points
     if version.answer_type != "process":
         return 0
-    value = normalize_answer(answer.get("text", ""))
-    score = 0
+    value = normalize_answer(answer.get("text"))
+    earned = 0
     for part in version.answer_spec.get("partial", []):
-        if any(normalize_answer(token) in value for token in part.get("tokens", [])):
-            score += int(part.get("points", 0))
-    return min(points, score)
+        tokens = [normalize_answer(token) for token in part.get("tokens", [])]
+        if any(token and contains_asserted_token(value, token) for token in tokens):
+            earned += int(part.get("points", 0))
+    return min(points, earned)
 
 
 def award_first_solve_xp(

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
+import unicodedata
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +37,13 @@ ALLOWED_TAGS = set(bleach.sanitizer.ALLOWED_TAGS) | {
     "line",
     "text",
     "g",
+    "table",
+    "caption",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
 }
 ALLOWED_ATTRS = {
     "*": ["class", "aria-label", "role"],
@@ -47,6 +56,8 @@ ALLOWED_ATTRS = {
     "polyline": ["points", "fill", "stroke", "stroke-width"],
     "line": ["x1", "y1", "x2", "y2", "stroke", "stroke-width", "stroke-dasharray"],
     "text": ["x", "y", "text-anchor", "font-size", "font-family", "fill"],
+    "th": ["scope", "colspan", "rowspan"],
+    "td": ["colspan", "rowspan"],
 }
 
 
@@ -61,6 +72,10 @@ def clean_html(value: str) -> str:
 
 def digest(value: Any) -> str:
     return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True).encode("utf-8")).hexdigest()
+
+
+def _normalize_contract_text(value: Any) -> str:
+    return re.sub(r"[\s,]", "", unicodedata.normalize("NFKC", str(value or ""))).replace("−", "-").lower()
 
 
 def load_bundle(path: str | Path) -> dict:
@@ -79,8 +94,19 @@ def load_bundle(path: str | Path) -> dict:
             idx = problem["answer_spec"].get("correct_index")
             if idx is None or idx < 0 or idx >= len(problem.get("choices", [])):
                 raise ValueError(f"{problem['external_key']}: choice answer mismatch")
+            choices = [_normalize_contract_text(choice) for choice in problem.get("choices", [])]
+            if len(choices) != len(set(choices)):
+                raise ValueError(f"{problem['external_key']}: choice options must be unique")
         if problem["answer_type"] in {"text", "process"} and not problem["answer_spec"].get("accepted"):
             raise ValueError(f"{problem['external_key']}: accepted answers required")
+        if problem["answer_type"] == "process":
+            tokens = [
+                _normalize_contract_text(token)
+                for part in problem["answer_spec"].get("partial", [])
+                for token in part.get("tokens", [])
+            ]
+            if len(tokens) != len(set(tokens)):
+                raise ValueError(f"{problem['external_key']}: rubric tokens must be unique")
     known = set(keys)
     for exam in bundle["exams"]:
         seen_seq = set()
@@ -90,6 +116,8 @@ def load_bundle(path: str | Path) -> dict:
             if item["sequence"] in seen_seq:
                 raise ValueError(f"{exam['slug']}: duplicate item sequence")
             seen_seq.add(item["sequence"])
+        if sorted(seen_seq) != list(range(1, len(exam["items"]) + 1)):
+            raise ValueError(f"{exam['slug']}: item sequences must be contiguous")
     return bundle
 
 
